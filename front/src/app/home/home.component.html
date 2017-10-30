@@ -1,0 +1,16 @@
+<navbar></navbar>
+<div class="homeBody">
+    <form #registrationForm="ngForm" (ngSubmit)="getData()">        
+        <mat-form-field>
+          <mat-select placeholder="Favorite Place" [(ngModel)]="selectedValue" name="food">
+            <mat-option *ngFor="let place of places" [value]="place.value">
+              {{place.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button type="submit" class="getdata btn btn-lg btn-primary btn-block">Get Data</button>        
+      </form>
+      <br/>
+      <span class='msg'>{{source}}</span>
+      <span class='error'>{{error}}</span>     
+</div>
