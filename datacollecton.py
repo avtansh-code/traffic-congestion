@@ -27,7 +27,7 @@ while True:
 			currtime = now.strftime("%H:%M:%S")
 			currSpeed = data['flowSegmentData']['currentSpeed']
 			normSpeed = data['flowSegmentData']['freeFlowSpeed']
-			query = 'insert into traffic_data (place, currSpeed, normSpeed, date, time) values(%s, %s, %s, %s, %s)'
+			query = 'insert into traffic_data (location, currSpeed, normSpeed, date, time) values(%s, %s, %s, %s, %s)'
 			print query
 			data = (place[x], currSpeed, normSpeed, currdate, currtime)
 			cur.execute(query, data)
