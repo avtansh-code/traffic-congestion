@@ -10,7 +10,7 @@ db = MySQLdb.connect(host="localhost",  # your host
 
 cur = db.cursor()
 
-place = ['HauzKhas', 'ModelTown', 'CivilLines', 'PunjabiBagh', 'Najafgarh', 'SaraswatiVihar', 'MukarbaChowk', 'Seelampur', 'Gurugram', 'Noida']
+place = ['Hauz Khas', 'Model Town', 'Civil Lines', 'Punjabi Bagh', 'Najafgarh', 'Saraswati Vihar', 'Mukarba Chowk', 'Seelampur', 'Gurugram', 'Noida']
 
 latitude = ['28.5494489', '28.7158727', '28.6814284', '28.6619753', '28.6090126', '28.6964967', '28.7372', '28.6640177', '28.4595', '28.5355']
 
@@ -27,9 +27,9 @@ while True:
 			currtime = now.strftime("%H:%M:%S")
 			currSpeed = data['flowSegmentData']['currentSpeed']
 			normSpeed = data['flowSegmentData']['freeFlowSpeed']
-			query = 'insert into '+place[x]+' (currSpeed, normSpeed, date, time) values(%s, %s, %s, %s)'
+			query = 'insert into traffic_data (place, currSpeed, normSpeed, date, time) values(%s, %s, %s, %s, %s)'
 			print query
-			data = (currSpeed, normSpeed, currdate, currtime)
+			data = (place[x], currSpeed, normSpeed, currdate, currtime)
 			cur.execute(query, data)
 		  	print "Data inserted for "+place[x]+" on "+currdate+" at "+currtime
 			db.commit()
