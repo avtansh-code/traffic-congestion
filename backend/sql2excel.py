@@ -17,7 +17,7 @@ res = cursor.fetchall()
 
 df = pd.DataFrame(data=list(res))
 
-df.columns = ['Location','Curr Speed', 'Norm Speed', 'Date', 'Time', 'Congestion']
+df.columns = ['Location','CurrSpeed', 'NormSpeed', 'Date', 'Time', 'Congestion']
 
 print df
 
