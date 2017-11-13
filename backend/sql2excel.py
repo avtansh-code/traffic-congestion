@@ -5,12 +5,11 @@ user = 'root' # your username
 passwd = 'root' # your password
 host = 'localhost' # your host
 db = 'traffic' # database where your table is stored
-table = 'traffic_data' # table you want to save
 
 con = MySQLdb.connect(user=user, passwd=passwd, host=host, db=db)
 cursor = con.cursor()
 
-query = "SELECT * FROM %s;" % table
+query = "SELECT * FROM traffic_data;"
 cursor.execute(query)
 
 res = cursor.fetchall()
