@@ -1,6 +1,7 @@
 import MySQLdb
 import datetime
 import requests
+import pandas as pd
 import time
 
 db = MySQLdb.connect(host="localhost",  # your host 
@@ -36,6 +37,22 @@ while True:
 		except:
 			print "Error"
 			db.rollback()
+	query = "SELECT * FROM traffic_data;"
+	cur.execute(query)
+
+	res = cur.fetchall()
+
+	df = pd.DataFrame(data=list(res))
+
+	df.columns = ['Location','CurrSpeed', 'NormSpeed', 'Date', 'Time', 'Congestion']
+
+	print df
+
+	writer = pd.ExcelWriter('output.xlsx')
+	df.to_excel(writer,'Sheet1')
+	writer.save()
+
+	print('Excel File Created Succesfully')
 	time.sleep(1800)
 
 db.close()
