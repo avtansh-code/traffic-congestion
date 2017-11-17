@@ -25,22 +25,25 @@ part1=prob-cong_var
 part1=part1*part1
 part1=part1/(2*cong_var*cong_var)
 part1=(-1)*part1
-print part1
+#print part1
 
-print "*"*80
+#print "*"*80
 part2=[]
 for x in range(len(part1)):
     z=(math.exp(part1[x]))
     part2.append((0.3989*z)/val)
-print part2
-
-part3=[]
-for y in range(len(part2)):
-    part3.append(math.log(part2[y]))
+#print part2
+#print max(part2)
+#print part2.index(max(part2))
+max_threshold= data.get_value(part2.index(max(part2)),'Congestion')
+print max_threshold
+#part3=[]
+#for y in range(len(part2)):
+    #part3.append(math.log(part2[y]))
     #part3=(-1)*part3
 
 #print part2
-print part3
+#print part3
 
-print sum(part3)
+#print sum(part3)
 
