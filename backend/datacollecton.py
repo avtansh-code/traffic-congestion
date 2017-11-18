@@ -46,7 +46,7 @@ while True:
 
 	df.columns = ['Location','CurrSpeed', 'NormSpeed', 'Date', 'Time', 'Congestion']
 
-	print df
+	print len(df)
 
 	writer = pd.ExcelWriter('output.xlsx')
 	df.to_excel(writer,'Sheet1')
