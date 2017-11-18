@@ -39,20 +39,20 @@ while True:
 		except:
 			print "Error"
 			db.rollback()
-	query = "SELECT * FROM traffic_data;"
+	query = "SELECT location,currSpeed, normSpeed, date, HOUR(time), cong_percent FROM traffic_data;"
 	cur.execute(query)
 
 	res = cur.fetchall()
 
 	df = pd.DataFrame(data=list(res))
 
-	df.columns = ['Location','CurrSpeed', 'NormSpeed', 'Date', 'Time', 'Congestion']
+	df.columns = ['Location','CurrSpeed', 'NormSpeed', 'Date', 'Hour', 'Congestion']
 
 	print len(df)
 
 	df.to_csv('output.csv')
 
-	print('Excel File Created Succesfully')
+	print('CSV File Created Succesfully')
 	data = open('output.csv')
 
 	# get your credentials from environment variables
