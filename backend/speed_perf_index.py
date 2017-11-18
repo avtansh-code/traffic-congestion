@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 import boto3
 import sys
-import math
 
 if sys.version_info[0] < 3: 
     from StringIO import StringIO # Python 2.x
@@ -25,32 +24,13 @@ body = csv_obj['Body']
 csv_string = body.read().decode('utf-8')
 
 data = pd.read_csv(StringIO(csv_string))
-print 'File Read Successfully from S3'
 
-congestion_avg=data['Congestion'].mean()
+print 'File Read from S3 successfully'
 
-cong_var = data['Congestion']
-cong_var = cong_var - congestion_avg
-cong_var = cong_var * cong_var
-val = cong_var.mean()
+sum_of_curr_speed=data['CurrSpeed'].sum()
 
-part1=0.00
-part2=0.00
-part3=0.00
-max_like=0.00
-prob=data['Congestion']
-part1=prob-cong_var
-part1=part1*part1
-part1=part1/(2*cong_var*cong_var)
-part1=(-1)*part1
+sum_of_norm_speed=data['NormSpeed'].sum()
+speed_performance_index = 0.00
+speed_performance_index=1-(sum_of_curr_speed/sum_of_norm_speed)
 
-part2=[]
-for x in range(len(part1)):
-    z=(math.exp(part1[x]))
-    part2.append((0.3989*z)/val)
-
-print part2
-
-max_threshold= data.get_value(part2.index(max(part2)),'Congestion') / 100
-print max_threshold
-
+print(speed_performance_index)
