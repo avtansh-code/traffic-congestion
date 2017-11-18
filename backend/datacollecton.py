@@ -61,7 +61,7 @@ while True:
 
 	client = boto3.client('s3', aws_access_key_id=aws_id, aws_secret_access_key=aws_secret)
 
-	bucket_name = 'traffic-congestion'
+	bucket_name = 'traffic-predictions'
 
 	object_key = 'output.csv'
 	client.put_object(Key=object_key, Body=data, Bucket=bucket_name)
