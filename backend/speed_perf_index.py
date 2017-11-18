@@ -24,8 +24,11 @@ body = csv_obj['Body']
 csv_string = body.read().decode('utf-8')
 
 data = pd.read_csv(StringIO(csv_string))
-
 print 'File Read from S3 successfully'
+
+# removing redundant rows from the frame
+data = data[data['Congestion'] != 0.0]
+data = data.reset_index(drop=True)
 
 sum_of_curr_speed=data['CurrSpeed'].sum()
 

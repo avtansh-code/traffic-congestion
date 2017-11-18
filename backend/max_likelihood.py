@@ -27,17 +27,18 @@ csv_string = body.read().decode('utf-8')
 data = pd.read_csv(StringIO(csv_string))
 print 'File Read Successfully from S3'
 
-congestion_avg=data['Congestion'].mean()
+#Removing redundant values
+data = data[data['Congestion'] != 0.0]
+data = data.reset_index(drop=True)
+
+congestion_avg = data['Congestion'].mean()
 
 cong_var = data['Congestion']
 cong_var = cong_var - congestion_avg
 cong_var = cong_var * cong_var
 val = cong_var.mean()
 
-part1=0.00
-part2=0.00
-part3=0.00
-max_like=0.00
+
 prob=data['Congestion']
 part1=prob-cong_var
 part1=part1*part1
@@ -50,5 +51,6 @@ for x in range(len(part1)):
     part2.append((0.3989*z)/val)
 
 max_threshold= data.get_value(part2.index(max(part2)),'Congestion')
+
 print max_threshold
 
