@@ -65,3 +65,6 @@ npm-debug.log
 # IDE #
 .idea/
 *.swp
+
+#Output Files#
+/backend/output.csv

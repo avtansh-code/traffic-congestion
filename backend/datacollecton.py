@@ -3,6 +3,7 @@ import datetime
 import requests
 import pandas as pd
 import time
+import boto3
 
 db = MySQLdb.connect(host="localhost",  # your host 
                      user="root",       # username
@@ -48,11 +49,16 @@ while True:
 
 	print len(df)
 
-	writer = pd.ExcelWriter('output.xlsx')
-	df.to_excel(writer,'Sheet1')
-	writer.save()
+	df.to_csv('output.csv')
 
 	print('Excel File Created Succesfully')
+	data = open('output.csv')
+
+	# Let's use Amazon S3
+	s3 = boto3.resource('s3')
+	s3.Bucket('traffic-congestion').put_object(Key='output.csv', Body=data)
+	print 'File Upload Successful'
+
 	time.sleep(1800)
 
 db.close()
