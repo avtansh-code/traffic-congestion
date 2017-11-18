@@ -1,4 +1,5 @@
 from __future__ import division
+import os
 import numpy as np
 import pandas as pd
 import boto3
@@ -9,8 +10,9 @@ if sys.version_info[0] < 3:
 else:
     from io import StringIO # Python 3.x
 
-aws_id = 'AKIAJWP4IYG3ZOSOGCZQ'
-aws_secret = '9wxXGUL0zPXmPiaalw61ZvJWbgdgDqMgGS84YeqO'
+# get your credentials from environment variables
+aws_id = os.environ['AWS_ID']
+aws_secret = os.environ['AWS_SECRET']
 
 client = boto3.client('s3', aws_access_key_id=aws_id, aws_secret_access_key=aws_secret)
 
