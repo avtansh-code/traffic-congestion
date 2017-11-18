@@ -1,3 +1,4 @@
+import os
 import MySQLdb
 import datetime
 import requests
@@ -54,9 +55,16 @@ while True:
 	print('Excel File Created Succesfully')
 	data = open('output.csv')
 
-	# Let's use Amazon S3
-	s3 = boto3.resource('s3')
-	s3.Bucket('traffic-congestion').put_object(Key='output.csv', Body=data)
+	# get your credentials from environment variables
+	aws_id = os.environ['AWS_ID']
+	aws_secret = os.environ['AWS_SECRET']
+
+	client = boto3.client('s3', aws_access_key_id=aws_id, aws_secret_access_key=aws_secret)
+
+	bucket_name = 'traffic-congestion'
+
+	object_key = 'output.csv'
+	client.put_object(Key=object_key, Body=data, Bucket=bucket_name)
 	print 'File Upload Successful'
 
 	time.sleep(1800)
