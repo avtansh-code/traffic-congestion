@@ -27,5 +27,9 @@ csv_string = body.read().decode('utf-8')
 data = pd.read_csv(StringIO(csv_string))
 print 'File Read Successfully from S3'
 
+# removing redundant rows from the frame
+data = data[data['Congestion'] != 0.0]
+data = data.reset_index(drop=True)
+
 congestion_avg=data['Congestion'].mean()
 print(congestion_avg)
