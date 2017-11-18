@@ -1,4 +1,5 @@
 datetime
+openpyxl
 numpy
 pandas
 requests

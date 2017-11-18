@@ -20,23 +20,23 @@ longitude = ['77.2001368', '77.1910738', '77.2226866', '77.1241557', '76.9854526
 while True:
 	for x in range(10):
 		try:
-			url = "https://api.tomtom.com/traffic/services/4/flowSegmentData/absolute/10/json?key=aek0aVjtpxuq4D5qUgOAq0PDpN9V9lwt&point="+latitude[x]+","+longitude[x]
-			response = requests.get(url)
-			data = response.json()
-			now = datetime.datetime.now()
-			currdate = now.strftime("%Y-%m-%d")
-			currtime = now.strftime("%H:%M:%S")
-			currSpeed = data['flowSegmentData']['currentSpeed']
-			normSpeed = data['flowSegmentData']['freeFlowSpeed']
-			query = 'insert into traffic_data (location, currSpeed, normSpeed, date, time) values(%s, %s, %s, %s, %s)'
-			print query
-			data = (place[x], currSpeed, normSpeed, currdate, currtime)
-			cur.execute(query, data)
+			# url = "https://api.tomtom.com/traffic/services/4/flowSegmentData/absolute/10/json?key=aek0aVjtpxuq4D5qUgOAq0PDpN9V9lwt&point="+latitude[x]+","+longitude[x]
+			# response = requests.get(url)
+			# data = response.json()
+			# now = datetime.datetime.now()
+			# currdate = now.strftime("%Y-%m-%d")
+			# currtime = now.strftime("%H:%M:%S")
+			# currSpeed = data['flowSegmentData']['currentSpeed']
+			# normSpeed = data['flowSegmentData']['freeFlowSpeed']
+			# query = 'insert into traffic_data (location, currSpeed, normSpeed, date, time) values(%s, %s, %s, %s, %s)'
+			# print query
+			# data = (place[x], currSpeed, normSpeed, currdate, currtime)
+			# cur.execute(query, data)
 		  	print "Data inserted for "+place[x]+" on "+currdate+" at "+currtime
-			db.commit()
+			# db.commit()
 		except:
 			print "Error"
-			db.rollback()
+			# db.rollback()
 	query = "SELECT * FROM traffic_data;"
 	cur.execute(query)
 
@@ -46,13 +46,13 @@ while True:
 
 	df.columns = ['Location','CurrSpeed', 'NormSpeed', 'Date', 'Time', 'Congestion']
 
-	print df
+	# print df
 
 	writer = pd.ExcelWriter('output.xlsx')
 	df.to_excel(writer,'Sheet1')
 	writer.save()
 
 	print('Excel File Created Succesfully')
-	time.sleep(1800)
+	time.sleep(18)
 
 db.close()
