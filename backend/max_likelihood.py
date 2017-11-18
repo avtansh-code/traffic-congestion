@@ -49,8 +49,6 @@ for x in range(len(part1)):
     z=(math.exp(part1[x]))
     part2.append((0.3989*z)/val)
 
-print part2
-
-max_threshold= data.get_value(part2.index(max(part2)),'Congestion') / 100
+max_threshold= data.get_value(part2.index(max(part2)),'Congestion')
 print max_threshold
 

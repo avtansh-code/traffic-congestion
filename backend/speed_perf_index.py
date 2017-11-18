@@ -31,6 +31,6 @@ sum_of_curr_speed=data['CurrSpeed'].sum()
 
 sum_of_norm_speed=data['NormSpeed'].sum()
 speed_performance_index = 0.00
-speed_performance_index=1-(sum_of_curr_speed/sum_of_norm_speed)
+speed_performance_index=(1-(sum_of_curr_speed/sum_of_norm_speed))*100
 
 print(speed_performance_index)
