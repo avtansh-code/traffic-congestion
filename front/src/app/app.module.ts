@@ -16,7 +16,6 @@ import {
   PreloadAllModules
 } from '@angular/router';
 import { MatSelectModule } from '@angular/material';
-import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -70,7 +69,6 @@ type StoreType = {
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    Ng2SmartTableModule,
     MatSelectModule,
     HttpModule,
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })

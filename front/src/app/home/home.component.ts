@@ -4,7 +4,6 @@ import { AuthenticationService } from '../authentication';
 import { Router } from '@angular/router';
 import { NavbarComponent } from '../navbar';
 import { WebService } from '../webservices';
-import { ViewCell, LocalDataSource } from 'ng2-smart-table';
 
 @Component({
   selector: 'home',
@@ -40,7 +39,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   msg: string = 'No Data Available';
   error: string = '';
   submitValid: boolean = false;
-  source: LocalDataSource;
 
   settings = {
     columns: {
@@ -92,7 +90,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         (data) => {
           this.error = '';
           console.log(data);
-          this.source = data;
         },
         (err) => {
           this.error = err;
