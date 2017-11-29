@@ -8,7 +8,7 @@ import pandas as pd
 import boto3
 import sys
 import math
-from StringIO import StringIO # Python 2.x
+from StringIO import StringIO
 
 # get your credentials from environment variables
 aws_id = os.environ['AWS_ID']
@@ -24,6 +24,8 @@ body = csv_obj['Body']
 csv_string = body.read().decode('utf-8')
 
 data = pd.read_csv(StringIO(csv_string))
+
+data = data[['Location', 'CurrSpeed', 'NormSpeed', 'Date', 'Hour', 'Congestion']]
 
 # # removing redundant rows from the frame
 data = data[data['Congestion'] != 0.0]
