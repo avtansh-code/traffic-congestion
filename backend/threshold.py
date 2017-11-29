@@ -28,7 +28,6 @@ body = csv_obj['Body']
 csv_string = body.read().decode('utf-8')
 
 data = pd.read_csv(StringIO(csv_string))
-print 'File Read Successfully from S3'
 
 #data = pd.read_csv('output.csv')
 # # removing redundant rows from the frame

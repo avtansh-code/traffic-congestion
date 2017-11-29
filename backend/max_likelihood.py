@@ -21,5 +21,5 @@ def likelihood(data):
         z=(math.exp(part1[x]))
         part2.append((0.3989*z)/val)
 
-    return data.get_value(part2.index(max(part2)),'Congestion')
+    return data.at[part2.index(max(part2)),'Congestion']
 
