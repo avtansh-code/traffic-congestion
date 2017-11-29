@@ -3,7 +3,13 @@
 }
 
 .error{
+  font-size: 2em;
   color: red;
+}
+
+.message{
+  color: #ffcc00;
+  font-size: 2em;
 }
 
 .getdata{
