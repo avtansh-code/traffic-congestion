@@ -67,6 +67,6 @@ while True:
 	client.put_object(Key=object_key, Body=data, Bucket=bucket_name)
 	print 'File Upload Successful'
 
-	time.sleep(1800)
+	time.sleep(900)
 
 db.close()
