@@ -1,7 +1,5 @@
-# !/usr/bin/env python
-# -*- coding: utf-8 -*-
 """Entry point for the server application."""
-
+from __future__ import division
 import MySQLdb
 from datetime import date, datetime, timedelta
 import hashlib
@@ -13,9 +11,15 @@ from gevent.wsgi import WSGIServer
 from flask_jwt_simple import (
     JWTManager, jwt_required, create_jwt, get_jwt_identity, get_jwt
 )
-
+import os
+import pandas as pd
+import boto3
+import sys
+import math
 from .http_codes import Status
 from .factory import create_app, create_user
+from StringIO import StringIO
+#import threshold as th
 
 logger = logging.getLogger(__name__)
 app = create_app()
@@ -93,6 +97,42 @@ def login():
     except:
         logger.info('Failed')
         return jsonify({"msg": "Server Error"}), Status.HTTP_BAD_REQUEST
+
+@app.route('/api/getLocationOverview', methods=['POST'])
+@jwt_required
+def post_location_data():
+    logger.info('Getting data')
+    params = request.get_json()
+    location = params.get('location', None)
+
+    try:
+        logger.info(location)
+        # get your credentials from environment variables
+        aws_id = os.environ['AWS_ID']
+        aws_secret = os.environ['AWS_SECRET']
+
+        client = boto3.client('s3', aws_access_key_id=aws_id, aws_secret_access_key=aws_secret)
+
+        bucket_name = 'traffic-predictions'
+
+        object_key = 'output.csv'
+        csv_obj = client.get_object(Bucket=bucket_name, Key=object_key)
+        body = csv_obj['Body']
+        csv_string = body.read().decode('utf-8')
+        logger.info('Getting data from S3 bucket')
+        data = pd.read_csv(StringIO(csv_string))
+        data = data[['Location', 'CurrSpeed', 'NormSpeed', 'Date', 'Hour', 'Congestion']]
+        data = data[data['Location'] == location]
+        logger.info('Data retrieved successfully')
+        data = data[['Hour','CurrSpeed','Congestion']].groupby(data['Hour'])
+        data = data.mean()
+        json_string = data.to_json(orient='index')
+        return Response(json_string,
+                    status=Status.HTTP_OK_BASIC,
+                    mimetype='application/json')
+    except:
+        logger.info('Failed')
+        return jsonify({"msg": "Row Not Fetched"}), Status.HTTP_BAD_REQUEST
 
 
 def main():
