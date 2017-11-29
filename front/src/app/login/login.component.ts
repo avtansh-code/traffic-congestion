@@ -51,7 +51,7 @@ export class LoginFormComponent implements OnInit {
         this.router.navigate(['/home']);
       },
       (error) => {
-        this.handleError(error); 
+        this.handleError(error);
       }
       );
   }
@@ -59,10 +59,10 @@ export class LoginFormComponent implements OnInit {
     // In a real world app, we might use a remote logging infrastructure
     // We'd also dig deeper into the error to get a better message
     let errMsg: string;
-    if(error == '401 - UNAUTHORIZED'){
+    if(error === '401 - UNAUTHORIZED'){
       errMsg = 'Incorrect Username or Password';
     }
-    else if(error == '400 - BAD REQUEST'){
+    else if(error === '400 - BAD REQUEST'){
       errMsg = 'Bad Request';
     }
     else{
