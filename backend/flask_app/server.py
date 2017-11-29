@@ -61,7 +61,7 @@ def logout():
 @app.route('/api/login', methods=['POST'])
 def login():
     """View function for login view."""
-    logger.info('Logged in user')
+    logger.info('Logging in')
 
     params = request.get_json()
     username = params.get('username', None)
