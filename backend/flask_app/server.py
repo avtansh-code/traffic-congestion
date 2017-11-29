@@ -46,7 +46,7 @@ def add_claims_to_access_token(identity):
     }
 
 
-@app.route("/api/logout", methods=['POST'])
+@app.route("/api/logout", methods=['GET'])
 @jwt_required
 def logout():
     """Logout the currently logged in user."""

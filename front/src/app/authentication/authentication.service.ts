@@ -35,7 +35,7 @@ export class AuthenticationService {
    */
   public logout() {
     if (this.isAuthenticated()) {
-      this.postResource({}, '/api/logout')
+      this.getResource('/api/logout')
         .subscribe((data) => this.handleLogout(data),
         (error) => {
           if (error.status === 401) {
