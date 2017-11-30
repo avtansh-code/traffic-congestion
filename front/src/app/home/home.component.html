@@ -1,8 +1,8 @@
 <navbar></navbar>
 <div class="homeBody">
-    <form #registrationForm="ngForm" (ngSubmit)="getData()">        
+    <form #registhationForm="ngForm" (ngSubmit)="getData()">        
         <mat-form-field>
-          <mat-select placeholder="Favorite Place" [(ngModel)]="selectedValue" name="food">
+          <mat-select placeholder="Select a location" [(ngModel)]="selectedValue" name="food">
             <mat-option *ngFor="let place of places" [value]="place.value">
               {{place.viewValue}}
             </mat-option>
@@ -11,6 +11,12 @@
         <button type="submit" class="getdata btn btn-lg btn-primary btn-block">Get Data</button>        
       </form>
       <br/>
-      <span class='msg'>{{source}}</span>
-      <span class='error'>{{error}}</span>     
+      <span class='message' *ngIf="dispMessage">
+        <spinner [size]="25" [tickness]="4"></spinner>
+        {{msg}}
+      </span>     
+      <span class='error'  *ngIf="dispError">{{error}}</span>   
+      <span class='table'  *ngIf="dispTable">
+        <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
+      </span>
 </div>

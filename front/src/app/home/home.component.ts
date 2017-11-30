@@ -4,6 +4,13 @@ import { AuthenticationService } from '../authentication';
 import { Router } from '@angular/router';
 import { NavbarComponent } from '../navbar';
 import { WebService } from '../webservices';
+import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
+
+interface Location{
+  Hour: number;
+  CurrSpeed: number;
+  Congestion: number;
+}
 
 @Component({
   selector: 'home',
@@ -13,7 +20,11 @@ import { WebService } from '../webservices';
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  constructor(private http: Http, private router: Router, private webservice: WebService) { }
+  source: LocalDataSource; 
+
+  constructor(private http: Http, private router: Router, private webservice: WebService) {
+    this.source = new LocalDataSource();
+   }
 
   public ngOnInit() {
     this.webservice.isAuthenticated();
@@ -24,44 +35,41 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   places = [
-    {value:'HauzKhas', viewValue:'Hauz Khas', latitude:28.5494459, longitude:77.2001368},
-    {value:'ModelTown', viewValue:'Model Town', latitude:28.7158727, longitude:77.1910738},
-    {value:'CivilLines', viewValue:'Civil Lines', latitude:28.6814284, longitude:77.2226866},
-    {value:'PunjabiBagh', viewValue:'Punjabi Bagh', latitude:28.6619753, longitude:77.1241557},
+    {value:'Hauz Khas', viewValue:'Hauz Khas', latitude:28.5494459, longitude:77.2001368},
+    {value:'Model Town', viewValue:'Model Town', latitude:28.7158727, longitude:77.1910738},
+    {value:'Civil Lines', viewValue:'Civil Lines', latitude:28.6814284, longitude:77.2226866},
+    {value:'Punjabi Bagh', viewValue:'Punjabi Bagh', latitude:28.6619753, longitude:77.1241557},
     {value:'Najafgarh', viewValue:'Najafgarh', latitude:28.6090126, longitude:76.9854526},
-    {value:'SaraswatiVihar', viewValue:'Saraswati Vihar', latitude:28.6964967, longitude:77.1250482},
-    {value:'MukarbaChowk', viewValue:'Mukarba Chowk', latitude:28.7372, longitude:77.1603},
+    {value:'Saraswati Vihar', viewValue:'Saraswati Vihar', latitude:28.6964967, longitude:77.1250482},
+    {value:'Mukarba Chowk', viewValue:'Mukarba Chowk', latitude:28.7372, longitude:77.1603},
     {value:'Seelampur', viewValue:'Seelampur', latitude:28.6640177, longitude:77.2711557},
     {value:'Gurugram', viewValue:'Gurugram', latitude:28.4595, longitude:77.0266},
     {value:'Noida', viewValue:'Noida', latitude:28.5355, longitude:77.3910}
   ];
   selectedValue: string = '';
-  msg: string = 'No Data Available';
-  error: string = '';
-  submitValid: boolean = false;
+  msg: string;
+  error: string;
+  dispMessage: boolean = false;
+  dispError: boolean = false;
+  dispTable: boolean = false;
+  placesOver = [];
 
   settings = {
     columns: {
-      date: {
-        title: 'Date',
-        sort: false,
-        width: '25%'
-      },
-      time: {
-        title: 'Time',
-        sortDirection: 'desc',
+      Hour: {
+        title: 'Hour',
         sort: true,
-        width: '25%'
+        width: '20%'
       },
-      currSpeed: {
-        title: 'Speed on time',
+      CurrSpeed: {
+        title: 'Average Speed (kmph)',
         sort: true,
-        width: '25%'
+        width: '20%'
       },
-      normSpeed: {
-        title: 'Free Flow Speed',
+      Congestion: {
+        title: 'Congestion %age',
         sort: true,
-        width: '25%'
+        width: '20%'
       }
     },
     hideSubHeader: true,
@@ -71,35 +79,51 @@ export class HomeComponent implements OnInit, OnDestroy {
       delete: false
     },
     pager: {
-      display: true,
-      perPage: 10
+      display: false
     }
   };
-  data: object[];
 
   /**
    * Fetch the data from the python-flask backend
    */
   public getData() {
     if(this.selectedValue != ''){
+      this.msg = 'Loading Data...';
+      this.dispMessage = true;
+      this.dispError = false;
+      this.dispTable = false;
       let body = {
         location: this.selectedValue
       }; 
       this.webservice.getDataFromBackend(body)
       .subscribe(
         (data) => {
-          this.error = '';
-          console.log(data);
+          this.dispMessage = false;
+          this.dispError = false;
+          this.dispTable = true; 
+          this.handleData(data);
         },
         (err) => {
-          this.error = err;
+          this.error = 'Server Error: Unable to fetch data';
+          this.dispMessage = false;
+          this.dispError = true;
+          this.dispTable = false;
         }
       );
-      this.msg = 'The Location Selected is ' + this.selectedValue;
     }
     else{
-      this.msg = '';
       this.error = 'Please select a Location';
+      this.dispMessage = false;
+      this.dispError = true;
+      this.dispTable = false;
     }
+  }
+
+  private handleData(data: any){
+    let x = [];
+    for(let key of Object.keys(data)){
+      x.push(data[key]);
+    }
+    this.source.load(x);
   }
 }

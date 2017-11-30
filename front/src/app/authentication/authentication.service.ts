@@ -60,7 +60,7 @@ export class AuthenticationService {
     let postHeader = new Headers({ Authorization: 'Bearer ' + token });
     postHeader.append('Content-Type', 'application/json');
     let options = new RequestOptions({ headers: postHeader });
-    return this.http.post(url, body, options).map((res: Response) => res.json());;
+    return this.http.post(url, body, options).map((res: Response) => res.json());
   }
 
   /**
