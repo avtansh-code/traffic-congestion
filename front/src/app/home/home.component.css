@@ -15,3 +15,27 @@
 .getdata{
   width: 6em;
 }
+
+.dataTable{
+  margin: 1em;
+}
+
+ng2-smart-table{
+  font-size: 1.1em !important;
+}
+
+:host /deep/ .ng2-smart-titles{
+  border: 1px solid !important;
+}
+
+:host /deep/ tr{
+  border: 1px solid !important;
+}
+
+:host /deep/ .ng2-smart-page-link{
+  margin-top: 10px !important;
+}
+
+spinner {
+  border-color: #ffcc00 rgba(79, 106, 167, 0.1) rgba(79, 106, 167, 0.1) !important;
+}

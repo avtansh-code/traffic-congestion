@@ -58,18 +58,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     columns: {
       Hour: {
         title: 'Hour',
-        sort: false,
-        width: '30%'
+        sort: true,
+        width: '20%'
       },
       CurrSpeed: {
         title: 'Average Speed (kmph)',
-        sort: false,
-        width: '30%'
+        sort: true,
+        width: '20%'
       },
       Congestion: {
         title: 'Congestion %age',
-        sort: false,
-        width: '40%'
+        sort: true,
+        width: '20%'
       }
     },
     hideSubHeader: true,
@@ -104,7 +104,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.handleData(data);
         },
         (err) => {
-          this.error = err;
+          this.error = 'Server Error: Unable to fetch data';
           this.dispMessage = false;
           this.dispError = true;
           this.dispTable = false;

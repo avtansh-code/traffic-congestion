@@ -12,10 +12,11 @@
       </form>
       <br/>
       <span class='message' *ngIf="dispMessage">
+        <spinner [size]="25" [tickness]="4"></spinner>
         {{msg}}
       </span>     
-      <span class='error'  *ngIf="dispMessage">{{error}}</span>   
-      <span *ngIf="dispTable">
+      <span class='error'  *ngIf="dispError">{{error}}</span>   
+      <span class='table'  *ngIf="dispTable">
         <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
       </span>
 </div>

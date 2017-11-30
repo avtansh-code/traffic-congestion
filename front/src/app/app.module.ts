@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { SpinnerModule } from 'angular2-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   NgModule,
@@ -17,6 +18,7 @@ import {
   PreloadAllModules
 } from '@angular/router';
 import { MatSelectModule } from '@angular/material';
+
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -71,6 +73,7 @@ type StoreType = {
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSelectModule,
+    SpinnerModule,
     HttpModule,
     Ng2SmartTableModule,
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
