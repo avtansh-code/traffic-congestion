@@ -1,5 +1,7 @@
 .homeBody{
   margin-top: 5em !important; 
+  text-align: center !important;
+  align-content: center !important;
 }
 
 .error{
@@ -16,24 +18,14 @@
   width: 6em;
 }
 
-.dataTable{
+.datatable{
   margin: 1em;
+  text-align: center !important;
+  align-content: center !important;
 }
 
-ng2-smart-table{
-  font-size: 1.1em !important;
-}
-
-:host /deep/ .ng2-smart-titles{
-  border: 1px solid !important;
-}
-
-:host /deep/ tr{
-  border: 1px solid !important;
-}
-
-:host /deep/ .ng2-smart-page-link{
-  margin-top: 10px !important;
+td{
+  padding: 1em;
 }
 
 spinner {
