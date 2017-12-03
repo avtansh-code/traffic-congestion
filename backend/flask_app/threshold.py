@@ -9,6 +9,10 @@ import math
 
 data = getData.getData()
 
+# # removing redundant rows from the frame
+data = data[data['Congestion'] != 0.0]
+data = data.reset_index(drop=True)
+
 f1 = threshold.spi(data)
 f2 = maxlikehihood.likelihood(data)
 f3 = congestion.average(data)
