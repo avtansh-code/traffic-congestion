@@ -42,8 +42,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   error: string;
   dispMessage: boolean = false;
   dispError: boolean = false;
-  dispTable: boolean = false;
-
+  dispTable: boolean = false
+  congResults = [];
+  speedResults = [];
   /**
    * Fetch the data from the python-flask backend
    */
@@ -59,6 +60,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.webservice.getDataFromBackend(body)
       .subscribe(
         (data) => {
+          this.congResults = [];
+          this.speedResults = [];
           this.dispMessage = false;
           this.dispError = false;
           this.dispTable = true; 
@@ -79,8 +82,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.dispTable = false;
     }
   }
-  congResults = [];
-  speedResults = [];
 
   private handleData(data: any){
     for(let key of Object.keys(data)){
