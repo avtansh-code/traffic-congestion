@@ -1,15 +1,7 @@
-<navbar></navbar>
 <div class="homeBody">
-    <form #registhationForm="ngForm" (ngSubmit)="getData()" class="fieldForm">        
-        <mat-form-field>
-          <mat-select placeholder="Select a location" [(ngModel)]="selectedValue" name="food">
-            <mat-option *ngFor="let place of places" [value]="place.value">
-              {{place.value}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <button type="submit" class="getdata btn btn-lg btn-primary btn-block">Get Data</button>        
-      </form>
+    <h4>
+        {{selectedValue}}
+    </h4>
       <br/>
       <span class='message' *ngIf="dispMessage">
         <spinner [size]="25" [tickness]="4"></spinner>

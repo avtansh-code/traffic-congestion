@@ -1,0 +1,40 @@
+.page-heading{
+    font-size: 2.5em;
+    color: #fff;
+    background-color: #000;
+    padding: 0.5em;
+}
+
+.menu{
+    cursor: pointer;
+}
+
+.right-heading{
+    float: right;
+    color: #fff;
+    border: 2px solid #fff;
+    font-size: 0.6em;
+    padding: 0.3em;
+    border-radius: 0.5em;
+}
+
+a {
+    color: #fff;
+}
+
+.place-name{
+    height: auto;
+    padding: 1.2em 2em 1.2em 2em;
+    color: #fff;
+    border-bottom: 1px solid #fff;
+    font-size: 1.2 em;
+}
+
+.mat-sidenav{
+    background-color: #000;
+    text-align: center;
+}
+
+img{
+    margin: 1.2em 0em;
+}

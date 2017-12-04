@@ -24,6 +24,11 @@ export class LocationComponent implements OnInit, OnDestroy {
     this.getData();
   }
 
+  ngOnChanges(){
+    this.selectedValue = this.places[this.index].value;
+    this.getData();
+  }
+
   public ngOnDestroy() {
     console.log('destroyed');
   }
@@ -102,7 +107,7 @@ export class LocationComponent implements OnInit, OnDestroy {
    console.log(this.congResults);
  }
 
- view: any[] = [500, 400];
+ view: any[] = [600, 473];
  
  // options
  showXAxis = true;

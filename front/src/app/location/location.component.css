@@ -1,7 +1,9 @@
 .homeBody{
-    margin-top: 5em !important; 
+    margin-top: 1em !important; 
     text-align: center !important;
     align-content: center !important;
+    position: relative;
+    height: 578px !important;
   }
   
   .error{
