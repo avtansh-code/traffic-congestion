@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { AuthenticationService } from '../authentication';
 import { Router } from '@angular/router';
@@ -13,29 +13,32 @@ import { WebService } from '../webservices';
 })
 export class LocationComponent implements OnInit, OnDestroy {
 
-
+  @Input('index') index: number;
   constructor(private http: Http, private router: Router, private webservice: WebService) {
   }
 
- public ngOnInit() {
-   this.webservice.isAuthenticated();
- }
+  public ngOnInit() {
+    this.webservice.isAuthenticated();
+    // console.log(this.index);
+    this.selectedValue = this.places[this.index].value;
+    this.getData();
+  }
 
- public ngOnDestroy() {
-   console.log('destroyed');
- }
+  public ngOnDestroy() {
+    console.log('destroyed');
+  }
 
  places = [
-   {value:'Hauz Khas', viewValue:'Hauz Khas', latitude:28.5494459, longitude:77.2001368},
-   {value:'Model Town', viewValue:'Model Town', latitude:28.7158727, longitude:77.1910738},
-   {value:'Civil Lines', viewValue:'Civil Lines', latitude:28.6814284, longitude:77.2226866},
-   {value:'Punjabi Bagh', viewValue:'Punjabi Bagh', latitude:28.6619753, longitude:77.1241557},
-   {value:'Najafgarh', viewValue:'Najafgarh', latitude:28.6090126, longitude:76.9854526},
-   {value:'Saraswati Vihar', viewValue:'Saraswati Vihar', latitude:28.6964967, longitude:77.1250482},
-   {value:'Mukarba Chowk', viewValue:'Mukarba Chowk', latitude:28.7372, longitude:77.1603},
-   {value:'Seelampur', viewValue:'Seelampur', latitude:28.6640177, longitude:77.2711557},
-   {value:'Gurugram', viewValue:'Gurugram', latitude:28.4595, longitude:77.0266},
-   {value:'Noida', viewValue:'Noida', latitude:28.5355, longitude:77.3910}
+   {value:'Hauz Khas', latitude:28.5494459, longitude:77.2001368},
+   {value:'Model Town', latitude:28.7158727, longitude:77.1910738},
+   {value:'Civil Lines', latitude:28.6814284, longitude:77.2226866},
+   {value:'Punjabi Bagh', latitude:28.6619753, longitude:77.1241557},
+   {value:'Najafgarh', latitude:28.6090126, longitude:76.9854526},
+   {value:'Saraswati Vihar', latitude:28.6964967, longitude:77.1250482},
+   {value:'Mukarba Chowk', latitude:28.7372, longitude:77.1603},
+   {value:'Seelampur', latitude:28.6640177, longitude:77.2711557},
+   {value:'Gurugram', latitude:28.4595, longitude:77.0266},
+   {value:'Noida', latitude:28.5355, longitude:77.3910}
  ];
  selectedValue: string = '';
  msg: string;

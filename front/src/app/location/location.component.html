@@ -4,7 +4,7 @@
         <mat-form-field>
           <mat-select placeholder="Select a location" [(ngModel)]="selectedValue" name="food">
             <mat-option *ngFor="let place of places" [value]="place.value">
-              {{place.viewValue}}
+              {{place.value}}
             </mat-option>
           </mat-select>
         </mat-form-field>
