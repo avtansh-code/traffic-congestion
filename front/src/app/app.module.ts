@@ -35,7 +35,7 @@ import { ErrorMessageComponent } from './errormessage';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 import { HomeComponent } from './home';
-import { MainComponent } from './main';
+import { LocationComponent } from './location';
 import { AboutComponent } from './about';
 import { NoContentComponent } from './no-content';
 
@@ -62,6 +62,7 @@ type StoreType = {
   declarations: [
     AppComponent,
     HomeComponent,
+    LocationComponent,
     NavbarComponent,
     LoginFormComponent,
     SessionExpiredComponent,

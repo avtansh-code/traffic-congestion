@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home';
-import { MainComponent } from './main';
+import { LocationComponent } from './location';
 import { AboutComponent } from './about';
 import { NoContentComponent } from './no-content';
 
@@ -11,6 +11,7 @@ import { DataResolver } from './app.resolver';
 export const ROUTES: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginFormComponent },
+  { path: 'main', component: LocationComponent },
   { path: 'home', component: HomeComponent },
   { path: 'home/:place', component: HomeComponent }
 ];
