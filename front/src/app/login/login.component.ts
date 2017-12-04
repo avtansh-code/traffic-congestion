@@ -5,6 +5,8 @@ import { AuthenticationService } from '../authentication/authentication.service'
 import { UserComponent } from '../utils/user';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
+import { logging } from 'selenium-webdriver';
+import { setTimeout } from 'timers';
 
 @Component({
   selector: `login`,
@@ -40,14 +42,22 @@ export class LoginFormComponent implements OnInit {
     }
   }
 
-  public loginUser() {
+  logging: boolean = false;
+  loginMsg: string = "Validating Credentials";;
 
+  public loginUser() {
+    this.logging = true;
+    setTimeout(() => {
+      this.loginMsg = "Logging In"
+      setTimeout(() => this.loginMsg = "Fetching App Data", 3000);
+    }, 3000);
     let body = {
       username: this.myForm.controls['username'].value,
       password: this.myForm.controls['password'].value
     };
     this._service.login(body)
       .subscribe((data) => {
+        this.logging = false;
         this.router.navigate(['/home']);
       },
       (error) => {
@@ -59,6 +69,7 @@ export class LoginFormComponent implements OnInit {
     // In a real world app, we might use a remote logging infrastructure
     // We'd also dig deeper into the error to get a better message
     let errMsg: string;
+    this.logging = false;
     if(error === '401 - UNAUTHORIZED'){
       errMsg = 'Incorrect Username or Password';
     }

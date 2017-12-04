@@ -1,6 +1,6 @@
 <navbar></navbar>
 <div class="homeBody">
-    <form #registhationForm="ngForm" (ngSubmit)="getData()">        
+    <form #registhationForm="ngForm" (ngSubmit)="getData()" class="fieldForm">        
         <mat-form-field>
           <mat-select placeholder="Select a location" [(ngModel)]="selectedValue" name="food">
             <mat-option *ngFor="let place of places" [value]="place.value">
@@ -16,7 +16,39 @@
         {{msg}}
       </span>     
       <span class='error'  *ngIf="dispError">{{error}}</span>   
-      <span class='table'  *ngIf="dispTable">
-        <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
-      </span>
+      <div class='datatable'  *ngIf="dispTable">
+        <table>
+          <tr>
+            <td>
+              <ngx-charts-bar-vertical
+                [view]="view"
+                [results]="congResults"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [legend]="showLegend"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel1">
+              </ngx-charts-bar-vertical>
+            </td>
+            <td>
+              <ngx-charts-bar-vertical
+                [view]="view"
+                [results]="speedResults"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [legend]="showLegend"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel2">
+              </ngx-charts-bar-vertical>
+            </td>
+          </tr>
+        </table>
+      </div>
 </div>
+

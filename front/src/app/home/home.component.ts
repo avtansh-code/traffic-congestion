@@ -4,13 +4,6 @@ import { AuthenticationService } from '../authentication';
 import { Router } from '@angular/router';
 import { NavbarComponent } from '../navbar';
 import { WebService } from '../webservices';
-import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
-
-interface Location{
-  Hour: number;
-  CurrSpeed: number;
-  Congestion: number;
-}
 
 @Component({
   selector: 'home',
@@ -20,10 +13,8 @@ interface Location{
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  source: LocalDataSource; 
 
   constructor(private http: Http, private router: Router, private webservice: WebService) {
-    this.source = new LocalDataSource();
    }
 
   public ngOnInit() {
@@ -51,38 +42,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   error: string;
   dispMessage: boolean = false;
   dispError: boolean = false;
-  dispTable: boolean = false;
-  placesOver = [];
-
-  settings = {
-    columns: {
-      Hour: {
-        title: 'Hour',
-        sort: true,
-        width: '20%'
-      },
-      CurrSpeed: {
-        title: 'Average Speed (kmph)',
-        sort: true,
-        width: '20%'
-      },
-      Congestion: {
-        title: 'Congestion %age',
-        sort: true,
-        width: '20%'
-      }
-    },
-    hideSubHeader: true,
-    actions: {
-      add: false,
-      edit: false,
-      delete: false
-    },
-    pager: {
-      display: false
-    }
-  };
-
+  dispTable: boolean = false
+  congResults = [];
+  speedResults = [];
   /**
    * Fetch the data from the python-flask backend
    */
@@ -98,6 +60,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.webservice.getDataFromBackend(body)
       .subscribe(
         (data) => {
+          this.congResults = [];
+          this.speedResults = [];
           this.dispMessage = false;
           this.dispError = false;
           this.dispTable = true; 
@@ -120,10 +84,32 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private handleData(data: any){
-    let x = [];
     for(let key of Object.keys(data)){
-      x.push(data[key]);
+      let val1 ={
+        'name': data[key]['Hour'],
+        'value': data[key]['Congestion']
+      }
+      let val2 ={
+        'name': data[key]['Hour'],
+        'value': data[key]['CurrSpeed']
+      }
+      this.congResults.push(val1);
+      this.speedResults.push(val2);
     }
-    this.source.load(x);
+    console.log(this.congResults);
   }
+
+  view: any[] = [500, 400];
+  
+  // options
+  showXAxis = true;
+  showYAxis = true;
+  gradient = false;
+  showLegend = false;
+  showXAxisLabel = true;
+  xAxisLabel = 'Time of Day';
+  showYAxisLabel = true;
+  yAxisLabel1 = 'Congestion Percentage';
+  yAxisLabel2 = 'Average Speed (kmph)';
+
 }

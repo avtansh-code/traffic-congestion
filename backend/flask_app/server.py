@@ -19,12 +19,13 @@ import math
 from .http_codes import Status
 from .factory import create_app, create_user
 from StringIO import StringIO
-#import threshold as th
+import getData
 
 logger = logging.getLogger(__name__)
 app = create_app()
 jwt = JWTManager(app)
 
+trafficData = pd.DataFrame()
 
 @app.before_first_request
 def init():
@@ -93,10 +94,15 @@ def login():
             return jsonify({"msg": "Incorrect password"}), Status.HTTP_BAD_UNAUTHORIZED
 
         ret = {'jwt': create_jwt(identity=username), 'exp': datetime.utcnow() + current_app.config['JWT_EXPIRES']}
+        logger.info('Getting data from S3 bucket')
+        global trafficData
+        trafficData = getData.getData()
+        logger.info("Data retrieval successful")
         return jsonify(ret), Status.HTTP_OK_BASIC
     except:
         logger.info('Failed')
         return jsonify({"msg": "Server Error"}), Status.HTTP_BAD_REQUEST
+
 
 @app.route('/api/getLocationOverview', methods=['POST'])
 @jwt_required
@@ -104,26 +110,12 @@ def post_location_data():
     logger.info('Getting data')
     params = request.get_json()
     location = params.get('location', None)
+    global trafficData
 
     try:
         logger.info(location)
-        # get your credentials from environment variables
-        aws_id = os.environ['AWS_ID']
-        aws_secret = os.environ['AWS_SECRET']
-
-        client = boto3.client('s3', aws_access_key_id=aws_id, aws_secret_access_key=aws_secret)
-
-        bucket_name = 'traffic-predictions'
-
-        object_key = 'output.csv'
-        csv_obj = client.get_object(Bucket=bucket_name, Key=object_key)
-        body = csv_obj['Body']
-        csv_string = body.read().decode('utf-8')
-        logger.info('Getting data from S3 bucket')
-        data = pd.read_csv(StringIO(csv_string))
-        data = data[['Location', 'CurrSpeed', 'NormSpeed', 'Date', 'Hour', 'Congestion']]
-        data = data[data['Location'] == location]
-        logger.info('Data retrieved successfully')
+        data = trafficData[trafficData['Location'] == location]
+        logger.info(data)
         data = data[['Hour','CurrSpeed','Congestion']].groupby(data['Hour'])
         data = data.mean()
         json_string = data.to_json(orient='index')
