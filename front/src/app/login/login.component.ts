@@ -43,13 +43,13 @@ export class LoginFormComponent implements OnInit {
   }
 
   logging: boolean = false;
-  loginMsg: string = "Validating Credentials";;
+  loginMsg: string = "Validating...";;
 
   public loginUser() {
     this.logging = true;
     setTimeout(() => {
-      this.loginMsg = "Logging In"
-      setTimeout(() => this.loginMsg = "Fetching App Data", 3000);
+      this.loginMsg = "Logging..."
+      setTimeout(() => this.loginMsg = "Fetching Data...", 3000);
     }, 3000);
     let body = {
       username: this.myForm.controls['username'].value,
