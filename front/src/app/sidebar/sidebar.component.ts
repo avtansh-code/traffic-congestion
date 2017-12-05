@@ -24,7 +24,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     locationIndex = 0;
 
     changeLocation(loc: number):void{
-        console.log(loc);
         this.locationIndex = loc;
     }
 
