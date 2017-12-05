@@ -14,16 +14,67 @@ import { WebService } from '../webservices';
 export class LocationComponent implements OnInit, OnDestroy {
 
   @Input('index') index: number;
+  @Input('type') type: string;
+
+
+  selectedValue: string;
+  graphType: string;
+  msg: string;
+  error: string;
+  dispMessage: boolean = false;
+  dispError: boolean = false;
+  dispTable: boolean = false
+  congResults = [];
+  speedResults = [];
+  cong_threshold: number;
+  freeflow_speed: number;
+
   constructor(private http: Http, private router: Router, private webservice: WebService) {
   }
 
+
+  places = [
+    {value:'Hauz Khas', latitude:28.5494459, longitude:77.2001368},
+    {value:'Model Town', latitude:28.7158727, longitude:77.1910738},
+    {value:'Civil Lines', latitude:28.6814284, longitude:77.2226866},
+    {value:'Punjabi Bagh', latitude:28.6619753, longitude:77.1241557},
+    {value:'Najafgarh', latitude:28.6090126, longitude:76.9854526},
+    {value:'Saraswati Vihar', latitude:28.6964967, longitude:77.1250482},
+    {value:'Mukarba Chowk', latitude:28.7372, longitude:77.1603},
+    {value:'Seelampur', latitude:28.6640177, longitude:77.2711557},
+    {value:'Gurugram', latitude:28.4595, longitude:77.0266},
+    {value:'Noida', latitude:28.5355, longitude:77.3910}
+  ];
+
   public ngOnInit() {
     this.webservice.isAuthenticated();
-    this.selectedValue = this.places[this.index].value;
-    this.getData();
   }
 
   ngOnChanges(){
+    this.graphType = this.type;
+    if(this.type === "overview"){
+      this.graphType = "Overview"
+    }
+    else if(this.type === "monthly"){
+      let today = new Date();
+      let end_date = today.toLocaleDateString();
+      let start = new Date();
+      start.setDate(today.getDate() - 30);
+      let start_date  = start.toLocaleDateString();
+      this.graphType = start_date + " to " + end_date;
+    }
+    else if(this.type === "weekly"){
+      let today = new Date();
+      let end_date = today.toLocaleDateString();
+      let start = new Date();
+      start.setDate(today.getDate() - 7);
+      let start_date  = start.toLocaleDateString();
+      this.graphType = start_date + " to " + end_date;
+    }
+    else{
+      this.graphType = "Current Traffic Status"
+    }
+    console.log(this.graphType);
     this.selectedValue = this.places[this.index].value;
     this.getData();
   }
@@ -32,28 +83,6 @@ export class LocationComponent implements OnInit, OnDestroy {
     console.log('destroyed');
   }
 
- places = [
-   {value:'Hauz Khas', latitude:28.5494459, longitude:77.2001368},
-   {value:'Model Town', latitude:28.7158727, longitude:77.1910738},
-   {value:'Civil Lines', latitude:28.6814284, longitude:77.2226866},
-   {value:'Punjabi Bagh', latitude:28.6619753, longitude:77.1241557},
-   {value:'Najafgarh', latitude:28.6090126, longitude:76.9854526},
-   {value:'Saraswati Vihar', latitude:28.6964967, longitude:77.1250482},
-   {value:'Mukarba Chowk', latitude:28.7372, longitude:77.1603},
-   {value:'Seelampur', latitude:28.6640177, longitude:77.2711557},
-   {value:'Gurugram', latitude:28.4595, longitude:77.0266},
-   {value:'Noida', latitude:28.5355, longitude:77.3910}
- ];
- selectedValue: string = '';
- msg: string;
- error: string;
- dispMessage: boolean = false;
- dispError: boolean = false;
- dispTable: boolean = false
- congResults = [];
- speedResults = [];
- cong_threshold: number;
- freeflow_speed: number;
  /**
   * Fetch the data from the python-flask backend
   */
@@ -111,7 +140,7 @@ export class LocationComponent implements OnInit, OnDestroy {
    }
  }
 
- view: any[] = [600, 473];
+ view: any[] = [600, 400];
  
  // options
  showXAxis = true;
