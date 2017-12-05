@@ -7,8 +7,11 @@
         <spinner [size]="25" [tickness]="4"></spinner>
         {{msg}}
       </span>     
-      <span class='error'  *ngIf="dispError">{{error}}</span>   
-      <div class='datatable'  *ngIf="dispTable">
+      <span class='error'  *ngIf="dispError">
+        {{error}}
+        <button class="refresh" (click)="getData()">Refresh</button>
+      </span>   
+      <div class='datatable'  *ngIf="dispTable && !current">
         <table>
           <tr>
             <td>
@@ -43,6 +46,31 @@
             </td>
           </tr>
         </table>
+      </div>
+      <div class="currentTable" *ngIf="dispTable && current">
+        <table>
+          <tr>
+            <td>Current Speed</td>
+            <td>{{current_speed}}</td>
+          </tr>
+          <tr>
+            <td>Free Flow Speed</td>
+            <td>{{freeflow_speed}}</td>
+          </tr>
+          <tr>
+            <td>Congestion Percentage</td>
+            <td>{{congestion_value}}</td>
+          </tr>
+          <tr>
+            <td>Traffic Condition</td>
+            <td>
+              <span *ngIf='congType == "Low"' class="low">{{congType}}</span>
+              <span *ngIf='congType == "Medium"' class="medium">{{congType}}</span>
+              <span *ngIf='congType == "High"' class="high">{{congType}}</span>
+            </td>
+          </tr>
+        </table>
+        <button class="refresh" (click)="getData()">Refresh</button>
       </div>
 </div>
 
