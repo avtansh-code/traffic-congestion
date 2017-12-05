@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../authentication';
 
@@ -7,12 +7,20 @@ import { AuthenticationService } from '../authentication';
   templateUrl: 'navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit{
 
-  public inputLogo = 'assets/img/traffic.png';
+  @Input('index') index: number;
+
+  locationIndex: number;
+
   constructor(private authService: AuthenticationService) { }
+  public ngOnInit() {
+    this.locationIndex = this.index;
+    console.log(this.locationIndex);
+  }
 
-  public logout() {
-    this.authService.logout();
+  ngOnChanges(){
+    this.locationIndex = this.index;
+    console.log(this.locationIndex);
   }
 }
