@@ -118,7 +118,7 @@ def post_location_data():
         data = trafficData[trafficData['Location'] == location]
         location_threshold = threshold.calc_threshold(data)
         data['Threshold'] = location_threshold
-        data = data[['Hour','CurrSpeed','Congestion','Threshold']].groupby(data['Hour'])
+        data = data[['Hour','NormSpeed','CurrSpeed','Congestion','Threshold']].groupby(data['Hour'])
         data = data.mean()
         json_string = data.to_json(orient='index')
         return Response(json_string,
