@@ -27,7 +27,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.locationIndex = loc;
     }
 
-    public inputLogo = 'assets/img/traffic.jpg';
+    public inputLogo = 'assets/img/traffic.png';
 
     places = ['Hauz Khas','Model Town', 'Civil Lines','Punjabi Bagh','Najafgarh', 'Saraswati Vihar', 'Mukarba Chowk', 'Seelampur', 'Gurugram', 'Noida'];
 }
