@@ -18,7 +18,7 @@ import { setTimeout } from 'timers';
 })
 export class LoginFormComponent implements OnInit {
 
-  public inputLogo = 'assets/img/traffic.png';
+  public inputLogo = 'assets/img/traffic1.png';
   public model: UserComponent = new UserComponent(1, '', '');
   public logintext: string = 'Sign in to continue';
   public color: string = 'black';
