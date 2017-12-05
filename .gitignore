@@ -68,3 +68,4 @@ npm-debug.log
 
 #Output Files#
 package-lock.json
+*.csv

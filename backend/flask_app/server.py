@@ -21,6 +21,7 @@ from .factory import create_app, create_user
 from StringIO import StringIO
 import getData
 import threshold
+import typeBased as tb
 
 logger = logging.getLogger(__name__)
 app = create_app()
@@ -111,11 +112,14 @@ def post_location_data():
     logger.info('Getting data')
     params = request.get_json()
     location = params.get('location', None)
+    dataType = params.get('type',None)
     global trafficData
+    logger.info(location)
+    logger.info(dataType)
 
     try:
-        logger.info(location)
-        data = trafficData[trafficData['Location'] == location]
+        totalData = trafficData[trafficData['Location'] == location]
+        data = tb.dataBasedOnType(totalData, dataType)
         location_threshold = threshold.calc_threshold(data)
         data['Threshold'] = location_threshold
         data = data[['Hour','NormSpeed','CurrSpeed','Congestion','Threshold']].groupby(data['Hour'])
