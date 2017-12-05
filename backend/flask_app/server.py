@@ -20,6 +20,7 @@ from .http_codes import Status
 from .factory import create_app, create_user
 from StringIO import StringIO
 import getData
+import threshold
 
 logger = logging.getLogger(__name__)
 app = create_app()
@@ -115,8 +116,9 @@ def post_location_data():
     try:
         logger.info(location)
         data = trafficData[trafficData['Location'] == location]
-        logger.info(data)
-        data = data[['Hour','CurrSpeed','Congestion']].groupby(data['Hour'])
+        location_threshold = threshold.calc_threshold(data)
+        data['Threshold'] = location_threshold
+        data = data[['Hour','CurrSpeed','Congestion','Threshold']].groupby(data['Hour'])
         data = data.mean()
         json_string = data.to_json(orient='index')
         return Response(json_string,

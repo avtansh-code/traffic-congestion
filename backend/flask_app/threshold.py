@@ -1,24 +1,24 @@
 from __future__ import division
-import speed_perf_index as threshold
+import speed_perf_index as spi
 import max_likelihood as maxlikehihood
 import congestion_avg as congestion
-import getData
 import numpy as np
 import pandas as pd
 import math
 
-data = getData.getData()
 
-# # removing redundant rows from the frame
-data = data[data['Congestion'] != 0.0]
-data = data.reset_index(drop=True)
+def calc_threshold(data):
 
-f1 = threshold.spi(data)
-f2 = maxlikehihood.likelihood(data)
-f3 = congestion.average(data)
+    # # removing redundant rows from the frame
+    # data = data[data['Congestion'] != 0.0]
+    data = data.reset_index(drop=True)
 
-final=(f1+f2+f3)/3
-print final
+    f1 = spi.spi(data)
+    f2 = maxlikehihood.likelihood(data)
+    f3 = congestion.average(data)
+
+    final_threshold=(f1+f2+f3)/3
+    return final_threshold
 
 
 
