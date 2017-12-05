@@ -71,6 +71,11 @@ export class LocationComponent implements OnInit, OnDestroy {
       let start_date  = start.toLocaleDateString();
       this.graphType = start_date + " to " + end_date;
     }
+    else if(this.type === "daily"){
+      let today = new Date();
+      let date = today.toLocaleDateString();
+      this.graphType = date;
+    }
     else{
       this.graphType = "Current Traffic Status"
     }
@@ -93,7 +98,8 @@ export class LocationComponent implements OnInit, OnDestroy {
      this.dispError = false;
      this.dispTable = false;
      let body = {
-       location: this.selectedValue
+       location: this.selectedValue,
+       type: this.type
      }; 
      this.webservice.getDataFromBackend(body)
      .subscribe(
