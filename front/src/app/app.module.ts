@@ -6,6 +6,7 @@ import { SpinnerModule } from 'angular2-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTabsModule } from '@angular/material/tabs';
 import {
   NgModule,
   ApplicationRef
@@ -82,6 +83,7 @@ type StoreType = {
     HttpModule,
     Ng2SmartTableModule,
     MatSidenavModule,
+    MatTabsModule,
     NgxChartsModule,
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
   ],
