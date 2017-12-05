@@ -33,3 +33,30 @@
   spinner {
     border-color: #ffcc00 rgba(79, 106, 167, 0.1) rgba(79, 106, 167, 0.1) !important;
   }
+
+  .low{
+    color: green;
+  }
+
+  .medium{
+    color: yellow;
+  }
+
+  .high{
+    color: red;
+  }
+
+  .currentTable{
+    text-align: center;
+    width: 100%;
+  }
+
+  .currentTable table{
+    margin: 0px auto;
+  }
+
+  .refresh{    
+    background-color: #4932B3;
+    color: #fff;
+    padding: 1em 2em;
+  }

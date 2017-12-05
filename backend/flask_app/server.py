@@ -22,6 +22,7 @@ from StringIO import StringIO
 import getData
 import threshold
 import typeBased as tb
+import current_status as cs
 
 logger = logging.getLogger(__name__)
 app = create_app()
@@ -119,12 +120,16 @@ def post_location_data():
 
     try:
         totalData = trafficData[trafficData['Location'] == location]
-        data = tb.dataBasedOnType(totalData, dataType)
-        location_threshold = threshold.calc_threshold(data)
-        data['Threshold'] = location_threshold
-        data = data[['Hour','NormSpeed','CurrSpeed','Congestion','Threshold']].groupby(data['Hour'])
-        data = data.mean()
-        json_string = data.to_json(orient='index')
+        if dataType != 'current':
+            data = tb.dataBasedOnType(totalData, dataType)
+            location_threshold = threshold.calc_threshold(data)
+            data['Threshold'] = location_threshold
+            data = data[['Hour','NormSpeed','CurrSpeed','Congestion','Threshold']].groupby(data['Hour'])
+            data = data.mean()
+            json_string = data.to_json(orient='index')
+        else:
+            json_string = cs.getData(totalData, location)
+            
         return Response(json_string,
                     status=Status.HTTP_OK_BASIC,
                     mimetype='application/json')
