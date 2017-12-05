@@ -1,0 +1,47 @@
+<div class="homeBody">
+    <h4>
+        {{selectedValue}}
+    </h4>
+      <br/>
+      <span class='message' *ngIf="dispMessage">
+        <spinner [size]="25" [tickness]="4"></spinner>
+        {{msg}}
+      </span>     
+      <span class='error'  *ngIf="dispError">{{error}}</span>   
+      <div class='datatable'  *ngIf="dispTable">
+        <table>
+          <tr>
+            <td>
+              Congestion Threshold = {{cong_threshold}}
+              <ngx-charts-bar-vertical
+                [view]="view"
+                [results]="congResults"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [legend]="showLegend"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel1">
+              </ngx-charts-bar-vertical>
+            </td>
+            <td>
+              <ngx-charts-bar-vertical
+                [view]="view"
+                [results]="speedResults"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [legend]="showLegend"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel2">
+              </ngx-charts-bar-vertical>
+            </td>
+          </tr>
+        </table>
+      </div>
+</div>
+

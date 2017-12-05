@@ -5,6 +5,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { SpinnerModule } from 'angular2-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import {
   NgModule,
   ApplicationRef
@@ -30,12 +31,13 @@ import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
 import { LoginFormComponent } from './login';
 import { NavbarComponent } from './navbar';
+import { SidebarComponent } from './sidebar';
 import { SessionExpiredComponent, NotFoundComponent } from './utils';
 import { ErrorMessageComponent } from './errormessage';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 import { HomeComponent } from './home';
-import { MainComponent } from './main';
+import { LocationComponent } from './location';
 import { AboutComponent } from './about';
 import { NoContentComponent } from './no-content';
 
@@ -62,9 +64,11 @@ type StoreType = {
   declarations: [
     AppComponent,
     HomeComponent,
+    LocationComponent,
     NavbarComponent,
     LoginFormComponent,
     SessionExpiredComponent,
+    SidebarComponent,
     ErrorMessageComponent,
     NotFoundComponent
   ],
@@ -77,6 +81,7 @@ type StoreType = {
     SpinnerModule,
     HttpModule,
     Ng2SmartTableModule,
+    MatSidenavModule,
     NgxChartsModule,
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
   ],

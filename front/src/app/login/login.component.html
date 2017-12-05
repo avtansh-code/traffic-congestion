@@ -17,7 +17,7 @@
           <div class="form-group" *ngIf="!logging">
             <button type="submit" class="btn btn-lg btn-primary btn-block" [disabled]="!registrationForm.valid">Sign in</button>
           </div>
-          <div *ngIf="logging">
+          <div *ngIf="logging" class="login-text">
             <spinner [size]="25" [tickness]="4"></spinner>
             {{loginMsg}}
           </div>

@@ -1,0 +1,35 @@
+.homeBody{
+    margin-top: 1em !important; 
+    text-align: center !important;
+    align-content: center !important;
+    position: relative;
+    height: 578px !important;
+  }
+  
+  .error{
+    font-size: 2em;
+    color: red;
+  }
+  
+  .message{
+    color: #ffcc00;
+    font-size: 2em;
+  }
+  
+  .getdata{
+    width: 6em;
+  }
+  
+  .datatable{
+    margin: 1em;
+    text-align: center !important;
+    align-content: center !important;
+  }
+  
+  td{
+    padding: 1em;
+  }
+  
+  spinner {
+    border-color: #ffcc00 rgba(79, 106, 167, 0.1) rgba(79, 106, 167, 0.1) !important;
+  }

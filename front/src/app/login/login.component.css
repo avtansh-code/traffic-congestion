@@ -73,4 +73,10 @@
     display: block;
     margin-top: 10px;
 }
-.modal-footer {   border-top: 0px; }
+.modal-footer {   
+    border-top: 0px; 
+}
+
+.login-text{
+    font-size: 2em;
+}
