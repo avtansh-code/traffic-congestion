@@ -16,7 +16,7 @@ export class LocationComponent implements OnInit, OnDestroy {
   @Input('index') index: number;
   @Input('type') type: string;
 
-
+  current: boolean = false;
   selectedValue: string;
   graphType: string;
   msg: string;
@@ -28,6 +28,9 @@ export class LocationComponent implements OnInit, OnDestroy {
   speedResults = [];
   cong_threshold: number;
   freeflow_speed: number;
+  current_speed: number;
+  congestion_value: number;
+  congType: string;
 
   constructor(private http: Http, private router: Router, private webservice: WebService) {
   }
@@ -78,6 +81,7 @@ export class LocationComponent implements OnInit, OnDestroy {
     }
     else{
       this.graphType = "Current Traffic Status"
+      this.current = true;
     }
     console.log(this.graphType);
     this.selectedValue = this.places[this.index].value;
@@ -129,20 +133,28 @@ export class LocationComponent implements OnInit, OnDestroy {
 
  private handleData(data: any){
    console.log(data);
-   this.cong_threshold = data[0]['Threshold'];
-   this.freeflow_speed = data[0]['NormSpeed'];
-   console.log(this.freeflow_speed);
-   for(let key of Object.keys(data)){
-     let val1 ={
-       'name': data[key]['Hour'],
-       'value': data[key]['Congestion']
-     }
-     let val2 ={
-       'name': data[key]['Hour'],
-       'value': data[key]['CurrSpeed']
-     }
-     this.congResults.push(val1);
-     this.speedResults.push(val2);
+   if(!this.current){
+    this.cong_threshold = data[0]['Threshold'];
+    this.freeflow_speed = data[0]['NormSpeed'];
+    console.log(this.freeflow_speed);
+    for(let key of Object.keys(data)){
+      let val1 ={
+        'name': data[key]['Hour'],
+        'value': data[key]['Congestion']
+      }
+      let val2 ={
+        'name': data[key]['Hour'],
+        'value': data[key]['CurrSpeed']
+      }
+      this.congResults.push(val1);
+      this.speedResults.push(val2);
+    }
+   }
+   else{
+     this.freeflow_speed = data['normSpeed'];
+     this.current_speed = data['currSpeed'];
+     this.congestion_value = data['congestion'];
+     this.congType = data['congType'];
    }
  }
 
