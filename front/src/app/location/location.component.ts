@@ -19,7 +19,6 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.webservice.isAuthenticated();
-    // console.log(this.index);
     this.selectedValue = this.places[this.index].value;
     this.getData();
   }
@@ -54,6 +53,7 @@ export class LocationComponent implements OnInit, OnDestroy {
  congResults = [];
  speedResults = [];
  cong_threshold: number;
+ freeflow_speed: number;
  /**
   * Fetch the data from the python-flask backend
   */
@@ -93,8 +93,10 @@ export class LocationComponent implements OnInit, OnDestroy {
  }
 
  private handleData(data: any){
+   console.log(data);
    this.cong_threshold = data[0]['Threshold'];
-   console.log(this.cong_threshold);
+   this.freeflow_speed = data[0]['NormSpeed'];
+   console.log(this.freeflow_speed);
    for(let key of Object.keys(data)){
      let val1 ={
        'name': data[key]['Hour'],
@@ -107,7 +109,6 @@ export class LocationComponent implements OnInit, OnDestroy {
      this.congResults.push(val1);
      this.speedResults.push(val2);
    }
-   console.log(this.congResults);
  }
 
  view: any[] = [600, 473];
