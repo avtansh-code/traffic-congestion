@@ -53,6 +53,7 @@ export class LocationComponent implements OnInit, OnDestroy {
  dispTable: boolean = false
  congResults = [];
  speedResults = [];
+ cong_threshold: number;
  /**
   * Fetch the data from the python-flask backend
   */
@@ -92,6 +93,8 @@ export class LocationComponent implements OnInit, OnDestroy {
  }
 
  private handleData(data: any){
+   this.cong_threshold = data[0]['Threshold'];
+   console.log(this.cong_threshold);
    for(let key of Object.keys(data)){
      let val1 ={
        'name': data[key]['Hour'],
