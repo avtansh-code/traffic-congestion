@@ -1,0 +1,32 @@
+<mat-tab-group>
+  <mat-tab label="Overview">
+    <location 
+      [index]="locationIndex"
+      type="overview">
+    </location>
+  </mat-tab>
+  <mat-tab label="Monthly Summary">
+    <location 
+      [index]="locationIndex"
+      type="monthly">
+    </location>
+  </mat-tab>
+  <mat-tab label="Weekly Summary">
+    <location 
+      [index]="locationIndex"
+      type="weekly">
+    </location>
+  </mat-tab>
+  <mat-tab label="Daily Summary">
+    <location 
+      [index]="locationIndex"
+      type="daily">
+    </location>
+  </mat-tab>
+  <mat-tab label="Current Status">
+    <location 
+      [index]="locationIndex"
+      type="current">
+    </location>
+  </mat-tab>
+</mat-tab-group>

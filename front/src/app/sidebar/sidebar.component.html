@@ -1,0 +1,20 @@
+<mat-sidenav-container>
+    <mat-sidenav #start>
+        <span class="logo"><img [src]="inputLogo" height="70px" width="75px"></span>
+        <ul class="places-list" style="list-style: none; padding:0%">
+            <li class="place-name" *ngFor="let place of places; let idx = index">
+                <span (click)="changeLocation(idx)"><b>{{places[idx]}}</b></span>
+            </li>
+        </ul>
+    </mat-sidenav>
+    <mat-sidenav-content>
+    <div class="page-heading">
+        <i class="material-icons menu" (click)="start.toggle(undefined, 'mouse')">menu</i>   
+        <span>Traffic Congestion Predictions</span> 
+        <div class="right-heading">
+            <a (click)="logout()"><b>Logout</b></a>
+        </div>  
+    </div>
+    <navbar [index]="locationIndex"></navbar>
+    </mat-sidenav-content>
+</mat-sidenav-container>

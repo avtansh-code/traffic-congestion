@@ -1,0 +1,76 @@
+<div class="homeBody">
+    <h4>
+        {{selectedValue}} - {{graphType}}
+    </h4>
+      <br/>
+      <span class='message' *ngIf="dispMessage">
+        <spinner [size]="25" [tickness]="4"></spinner>
+        {{msg}}
+      </span>     
+      <span class='error'  *ngIf="dispError">
+        {{error}}
+        <button class="refresh" (click)="getData()">Refresh</button>
+      </span>   
+      <div class='datatable'  *ngIf="dispTable && !current">
+        <table>
+          <tr>
+            <td>
+              Congestion Threshold = {{cong_threshold}}
+              <ngx-charts-bar-vertical
+                [view]="view"
+                [results]="congResults"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [legend]="showLegend"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel1">
+              </ngx-charts-bar-vertical>
+            </td>
+            <td>
+              Free Flow Speed = {{freeflow_speed}}
+              <ngx-charts-bar-vertical
+                [view]="view"
+                [results]="speedResults"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [legend]="showLegend"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel2">
+              </ngx-charts-bar-vertical>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="currentTable" *ngIf="dispTable && current">
+        <table>
+          <tr>
+            <td>Current Speed</td>
+            <td>{{current_speed}}</td>
+          </tr>
+          <tr>
+            <td>Free Flow Speed</td>
+            <td>{{freeflow_speed}}</td>
+          </tr>
+          <tr>
+            <td>Congestion Percentage</td>
+            <td>{{congestion_value}}</td>
+          </tr>
+          <tr>
+            <td>Traffic Condition</td>
+            <td>
+              <span *ngIf='congType == "Low"' class="low">{{congType}}</span>
+              <span *ngIf='congType == "Medium"' class="medium">{{congType}}</span>
+              <span *ngIf='congType == "High"' class="high">{{congType}}</span>
+            </td>
+          </tr>
+        </table>
+        <button class="refresh" (click)="getData()">Refresh</button>
+      </div>
+</div>
+
