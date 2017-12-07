@@ -33,12 +33,12 @@ def getData(data, location):
     print maxcong
     point1 = th-(maxcong*0.1)
     point2 = th+(maxcong*0.1)
-    if congestion < point1:
+    if congestion <= point1:
         congType = 'Low'
-    elif congestion > point2:
+    elif congestion >= point2:
         congType = 'High'
     else:
-        congType = 'Moderate'
+        congType = 'Medium'
     jstr = {"currSpeed": currSpeed, "normSpeed": normSpeed, "congestion": congestion, "congType": congType}
     json_data = json.dumps(jstr)
     return json_data
