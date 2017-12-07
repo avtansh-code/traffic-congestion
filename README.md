@@ -1,29 +1,29 @@
-# angular2-flask
----
+# Real Time Traffic Predictions
 
-| `Backend`        | `Frontend`           |
-| :-------------: |:-------------:|
-|[![DockerPulls](https://img.shields.io/docker/pulls/ansrivas/flask-backend.svg)](https://registry.hub.docker.com/u/ansrivas/flask-backend/)    | [![DockerPulls](https://img.shields.io/docker/pulls/ansrivas/angular2-frontend.svg)](https://registry.hub.docker.com/u/ansrivas/angular2-frontend/)      |
-| [![Docker Build Statu](https://img.shields.io/docker/build/ansrivas/flask-backend.svg)]()     | [![Docker Build Statu](https://img.shields.io/docker/build/ansrivas/angular2-frontend.svg)]()|  
+In this project we aim to tackle the problem of traffic congestion by monitoring the
+traffic flow and congestion and providing useful traffic congestion related information.
+Congestion can be tackled either by increasing road network capacity or by decreasing
+demand in congested areas, especially during peak hours. One of the major difficulties in
+reducing congestion on the road network is that it is hard to change the mindset of travelers.
+Travelling becomes an automatic and habitual process, and travelers are often unaware of
+alternative means of getting from A to B.
 
-Simple angular2 app with python-flask backend (for learning angular2)
+The basic idea behind the project will be to use real time traffic updates for a period of time
+and then understand the traffic patterns in the city. These patterns can be used to deduce a
+number of conclusions. The conclusions that can be drawn using this data are:
 
-## Dockerized version:
----
-
-The current build is using `nginx` to serve static files.
-
-1. In project root directory execute `docker-compose up`
-
-2. Navigate to `http://localhost:3000` and login using `admin:admin`
+    1. The locations in the cities where the traffic density is quite high
+    2. The time of the day at which the traffic density in a particular location is high
+    3. The zones in the city where the use of motor vehicles is prohibited
+    4. The density of traffic in major zones of the city
 
 
 ## Info
 ---
 
-1.  `backend` directory contains the flask backend with simple authentication methods
+1.  `backend` directory contains the flask backend with simple methods
 
-2.  `front` directory contains the angular2 frontend based on [angular-webpack-starter](https://github.com/AngularClass/angular2-webpack-starter)
+2.  `front` directory contains the angular2 frontend
 
 ## Usage
 ---
@@ -31,22 +31,20 @@ The current build is using `nginx` to serve static files.
 1.  Clone the repo
 
     ```bash
-    git clone --depth 1 https://github.com/ansrivas/angular2-flask.git
-    cd angular2-flask
+    git clone --depth 1 https://github.com/avtansh-code/traffic-congestion.git
+    cd traffic-congestion
     ```
 
-2.  Install the backend related requirements and run. The following will start a flask-server on `localhost:8080`
+2.  Import the sql file traffic.sql for the database related queries
+
+3.  Install the backend related requirements and run. The following will start a flask-server on `localhost:8080`
 
     ```bash
     cd backend
     sudo pip install -r requirements.txt
     python run.py
     ```
-
-3.  Install frontend related dependencies
-
-    -   Easiest way to handle node related dependencies is to install [nvm](https://github.com/creationix/nvm)
-    -   Once you have node installed, install the project's dependencies
+4.  Install frontend related dependencies
 
     ```bash
     cd front
@@ -61,13 +59,7 @@ The current build is using `nginx` to serve static files.
     npm run server:dev:hmr
     ```
 
-4.  Now navigate to `http://localhost:3000` and login using default credential : `admin:admin`
+5.  Now navigate to `http://localhost:3000`
 
-5.  Extra Note: To create a production build
+6. The login credentials will be provided by the project administrator
 
-    ```bash
-    cd front
-    npm install webpack-dev-server rimraf webpack typescript -g
-    npm install
-    npm run build:prod
-    ```

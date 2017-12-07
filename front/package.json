@@ -1,7 +1,7 @@
 {
-  "name": "angular-starter",
-  "version": "6.0.0",
-  "description": "An Angular Webpack Starter kit featuring Angular (Router, Http, Forms, Services, Tests, E2E, Coverage), Karma, Protractor, Jasmine, Istanbul, TypeScript, and Webpack by AngularClass",
+  "name": "traffic-congestion",
+  "version": "1.0.0",
+  "description": "Traffic congestion by monitoring the traffic flow and congestion and providing useful traffic congestion related information",
   "keywords": [
     "angular",
     "angular2",
@@ -9,8 +9,9 @@
     "webpack",
     "typescript"
   ],
-  "author": "Patrick Stapleton <patrick@angularclass.com>",
-  "homepage": "https://github.com/AngularClass/angular-starter",
+  "authors": "Avtansh Gupta <avtanshgupta1995@gmail.com>",
+  "contributors":  ["Khushboo Meena <khushboo1997meena@gmail.com>", "Kirti Jain <kirti22jain@gmail.com>"],
+  "homepage": "https://github.com/avtansh-code/traffic-congestion.git",
   "license": "MIT",
   "scripts": {
     "build:aot:prod": "npm run clean:dist && npm run clean:aot && cross-env BUILD_AOT=1 npm run webpack -- --config config/webpack.prod.js  --progress --profile --bail",
