@@ -1,10 +1,10 @@
-import os
+import time
+import json
 import MySQLdb
 import datetime
 import requests
 import pandas as pd
-import time
-import boto3
+import urllib2
 
 db = MySQLdb.connect(host="localhost",  # your host 
                      user="root",       # username
@@ -53,19 +53,20 @@ while True:
 	df.to_csv('output.csv')
 
 	print('CSV File Created Succesfully')
-	data = open('output.csv')
+	my_file = open("output.csv", "rb")
+	my_bytes = my_file.read()
+	my_url = "https://firebasestorage.googleapis.com/v0/b/traffic-predictor-233145.appspot.com/o/output.csv"
+	my_headers = {"Content-Type": "text/plain"}
 
-	# get your credentials from environment variables
-	aws_id = os.environ['AWS_ID']
-	aws_secret = os.environ['AWS_SECRET']
+	my_request = urllib2.Request(my_url, data=my_bytes, headers=my_headers)
 
-	client = boto3.client('s3', aws_access_key_id=aws_id, aws_secret_access_key=aws_secret)
-
-	bucket_name = 'traffic-predictions'
-
-	object_key = 'output.csv'
-	client.put_object(Key=object_key, Body=data, Bucket=bucket_name)
-	print 'File Upload Successful'
+	try:
+		loader = urllib2.urlopen(my_request)
+	except urllib2.URLError as e:
+		message = json.loads(e.read())
+		print(message["error"]["message"])
+	else:
+		print("File Successfully Uploaded")
 
 	time.sleep(900)
 
