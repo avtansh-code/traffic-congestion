@@ -1,27 +1,12 @@
-import os
 import pandas as pd
-import boto3
 import sys
 import math
-from StringIO import StringIO
+import requests
 
 def getData():
-    # get your credentials from environment variables
-    aws_id = os.environ['AWS_ID']
-    aws_secret = os.environ['AWS_SECRET']
-
-
-    client = boto3.client('s3', aws_access_key_id=aws_id, aws_secret_access_key=aws_secret)
-
-    bucket_name = 'traffic-predictions'
-
-    object_key = 'output.csv'
-    csv_obj = client.get_object(Bucket=bucket_name, Key=object_key)
-    body = csv_obj['Body']
-    csv_string = body.read().decode('utf-8')
-
-    data = pd.read_csv(StringIO(csv_string))
-
+    my_url = "https://firebasestorage.googleapis.com/v0/b/traffic-predictor-233145.appspot.com/o/output.csv?alt=media&token=9b79b904-17ff-4fd0-9637-55844ef9cdf2"
+    r = requests.get(my_url, allow_redirects=True)
+    open('output.csv', 'wb').write(r.content)
+    data = pd.read_csv("output.csv")
     data = data[['Location', 'CurrSpeed', 'NormSpeed', 'Date', 'Hour', 'Congestion']]
-
     return data

@@ -13,13 +13,11 @@ from flask_jwt_simple import (
 )
 import os
 import pandas as pd
-import boto3
 import sys
 import math
+import requests
 from .http_codes import Status
 from .factory import create_app, create_user
-from StringIO import StringIO
-import getData
 import threshold
 import typeBased as tb
 import current_status as cs
@@ -97,9 +95,14 @@ def login():
             return jsonify({"msg": "Incorrect password"}), Status.HTTP_BAD_UNAUTHORIZED
 
         ret = {'jwt': create_jwt(identity=username), 'exp': datetime.utcnow() + current_app.config['JWT_EXPIRES']}
-        logger.info('Getting data from S3 bucket')
+        logger.info('Getting data from firebase storage')
         global trafficData
-        trafficData = getData.getData()
+        my_url = "https://firebasestorage.googleapis.com/v0/b/traffic-predictor-233145.appspot.com/o/output.csv?alt=media&token=9b79b904-17ff-4fd0-9637-55844ef9cdf2"
+        r = requests.get(my_url, allow_redirects=True)
+        open('output.csv', 'wb').write(r.content)
+        data = pd.read_csv("output.csv")
+        data = data[['Location', 'CurrSpeed', 'NormSpeed', 'Date', 'Hour', 'Congestion']]   
+        trafficData = data
         logger.info("Data retrieval successful")
         return jsonify(ret), Status.HTTP_OK_BASIC
     except:
