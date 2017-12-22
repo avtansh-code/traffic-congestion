@@ -5,9 +5,7 @@ import MySQLdb
 import datetime
 import requests
 import pandas as pd
-from urllib.request import urlopen
-from urllib.request import Request
-from urllib.error import URLError
+import urllib2
 
 db = MySQLdb.connect(host="localhost",  # your host 
                      user="root",       # username
@@ -57,19 +55,19 @@ while True:
 
 	print('CSV File Created Succesfully')
 	my_file = open("output.csv", "rb")
-    my_bytes = my_file.read()
-    my_url = "https://firebasestorage.googleapis.com/v0/b/traffic-predictor-233145.appspot.com/o/output.csv"
-    my_headers = {"Content-Type": "text/plain"}
+	my_bytes = my_file.read()
+	my_url = "https://firebasestorage.googleapis.com/v0/b/traffic-predictor-233145.appspot.com/o/output.csv"
+	my_headers = {"Content-Type": "text/plain"}
 
-    my_request = Request(my_url, data=my_bytes, headers=my_headers, method="POST")
+	my_request = urllib2.Request(my_url, data=my_bytes, headers=my_headers)
 
-    try:
-        loader = urlopen(my_request)
-    except URLError as e:
-        message = json.loads(e.read())
-        print(message["error"]["message"])
-    else:
-        print("File Successfully Uploaded")
+	try:
+		loader = urllib2.urlopen(my_request)
+	except urllib2.URLError as e:
+		message = json.loads(e.read())
+		print(message["error"]["message"])
+	else:
+		print("File Successfully Uploaded")
 
 	time.sleep(900)
 
