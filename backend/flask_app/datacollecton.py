@@ -56,7 +56,7 @@ while True:
 	df.to_csv('output.csv')
 
 	print('CSV File Created Succesfully')
-	my_file = open("savegame.data", "rb")
+	my_file = open("output.csv", "rb")
     my_bytes = my_file.read()
     my_url = "https://firebasestorage.googleapis.com/v0/b/traffic-predictor-233145.appspot.com/o/output.csv"
     my_headers = {"Content-Type": "text/plain"}
