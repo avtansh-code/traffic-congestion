@@ -21,6 +21,23 @@ from .factory import create_app, create_user
 import threshold
 import typeBased as tb
 import current_status as cs
+import pyrebase
+import hashlib
+
+config = {
+    "apiKey": "AIzaSyDRH_4Zvfq1354LS0y-eF4nsnxQDpxfKI0",
+    "authDomain": "traffic-predictor-233145.firebaseapp.com",
+    "databaseURL": "https://traffic-predictor-233145.firebaseio.com",
+    "storageBucket": "traffic-predictor-233145.appspot.com",
+    "serviceAccount": "/home/avtansh/Desktop/traffic-congestion/backend/flask_app/serviceAccountCredentials.json"    
+  }
+
+firebase = pyrebase.initialize_app(config)
+
+auth = firebase.auth()
+db = firebase.database()
+#authenticate a user
+user = auth.sign_in_with_email_and_password("avtanshgupta1995@gmail.com", "Avi@1995")
 
 logger = logging.getLogger(__name__)
 app = create_app()
@@ -63,6 +80,38 @@ def logout():
     logger.info('Logged out user !!')
     return 'logged out successfully', Status.HTTP_OK_BASIC
 
+@app.route('/api/signup', methods=['POST'])
+def signup():
+    """View function for signup view."""
+    logger.info('Signing Up')
+    params = request.get_json()
+    username = params.get('username', None)
+    name = params.get('name',None)
+    password = params.get('password', None)
+    dob = params.get("dob",None)
+    phone = params.get("phone",None)
+    email = params.get("email",None)
+    hashpass = hashlib.md5(password.encode()).hexdigest()
+
+    try:
+        userData = {
+            "username": username,
+            "name": name,
+            "password": hashpass,
+            "dob": dob,
+            "phone": phone,
+            "email": email,
+            "verified": False
+        }
+        logger.info(userData)
+        db.child("users").child(username).set(userData, user['idToken'])
+        logger.info("Sign Up successful")
+        return jsonify({"msg": "Sign Up Successful. Contact Admin to Grant Access"}), Status.HTTP_OK_BASIC
+    except:
+        logger.info('Failed')
+        return jsonify({"msg": "Server Error"}), Status.HTTP_BAD_REQUEST
+
+
 
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -77,22 +126,18 @@ def login():
         return jsonify({"msg": "Missing username parameter"}), Status.HTTP_BAD_REQUEST
     if not password:
         return jsonify({"msg": "Missing password parameter"}), Status.HTTP_BAD_REQUEST
+
     try:
-        db = MySQLdb.connect(host="localhost",  # your host 
-                            user="root",       # username
-                            passwd="root",     # password
-                            db="traffic")
-        query = "select password from users where username='"+username+"'"
-        cur = db.cursor()
-        cur.execute(query)
-        count = cur.rowcount
-        if count == 0:
-            logger.info("Login Failed Due to missing username")
-            return jsonify({"msg": "Incorrect Username"}), Status.HTTP_BAD_UNAUTHORIZED
-        data = cur.fetchall()
-        if password != data[0][0]:
+        obtained = db.child("users").child(username).child("password").get(user['idToken']).val()  
+        verify = db.child("users").child(username).child("verified").get(user['idToken']).val()  
+        hashpass = hashlib.md5(password.encode()).hexdigest()
+        if hashpass != obtained:
             logger.info("Login Failed Due to incorrect password")
             return jsonify({"msg": "Incorrect password"}), Status.HTTP_BAD_UNAUTHORIZED
+
+        if verify == False:
+            logger.info("Login Failed Due as user not validated")
+            return jsonify({"msg": "User not Validated"}), Status.HTTP_BAD_FORBIDDEN
 
         ret = {'jwt': create_jwt(identity=username), 'exp': datetime.utcnow() + current_app.config['JWT_EXPIRES']}
         logger.info('Getting data from firebase storage')
@@ -107,7 +152,7 @@ def login():
         return jsonify(ret), Status.HTTP_OK_BASIC
     except:
         logger.info('Failed')
-        return jsonify({"msg": "Server Error"}), Status.HTTP_BAD_REQUEST
+        return jsonify({"msg": "Server Error or User Does Not Exist"}), Status.HTTP_BAD_REQUEST
 
 
 @app.route('/api/getLocationOverview', methods=['POST'])
