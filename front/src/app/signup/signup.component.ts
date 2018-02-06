@@ -48,24 +48,43 @@ export class SignupFormComponent implements OnInit {
   logging: boolean = false;
 
   public loginUser() {
-    this.logging = true;
-    let body = {
-      username: this.myForm.controls['username'].value,
-      password: this.myForm.controls['password'].value,
-      name: this.myForm.controls['name'].value,
-      date: this.myForm.controls['dob'].value,
-      phone: this.myForm.controls['phone'].value,
-      email: this.myForm.controls['email'].value
-    };
-    this._service.signup(body)
-      .subscribe((data) => {
-        this.logging = false;
-        this.router.navigate(['/login']);
-      },
-      (error) => {
-        this.handleError(error);
-      }
-      );
+    let password =  this.myForm.controls['password'].value;
+    let cnfmpassword =  this.myForm.controls['cnfmpassword'].value;
+    let phone = this.myForm.controls['phone'].value;
+    let email = this.myForm.controls['email'].value;
+    let regexexpPhone = new RegExp('^[0-9]{10,10}$')
+    if(password != cnfmpassword){
+      alert("Password and Confirm Password Do Not Match");
+    }
+    else if(phone.length !=10 ){
+      alert("Enter a valid phone number");
+    }
+    else if(password.length<9 || password.length>15){
+      alert("Password Length should be between 9 and 15")
+    }
+    else if(regexexpPhone.test(phone) == false){
+      alert("Invalid Phone Number");
+    }
+    else{
+      this.logging = true;
+      let body = {
+        username: this.myForm.controls['username'].value,
+        password: this.myForm.controls['password'].value,
+        name: this.myForm.controls['name'].value,
+        date: this.myForm.controls['dob'].value,
+        phone: this.myForm.controls['phone'].value,
+        email: this.myForm.controls['email'].value
+      };
+      this._service.signup(body)
+        .subscribe((data) => {
+          this.logging = false;
+          this.router.navigate(['/login']);
+        },
+        (error) => {
+          this.handleError(error);
+        }
+        );
+    }
   }
   private handleError(error: any) {
     // In a real world app, we might use a remote logging infrastructure
