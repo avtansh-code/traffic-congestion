@@ -29,7 +29,7 @@ config = {
     "authDomain": "traffic-predictor-233145.firebaseapp.com",
     "databaseURL": "https://traffic-predictor-233145.firebaseio.com",
     "storageBucket": "traffic-predictor-233145.appspot.com",
-    "serviceAccount": "/home/avtansh/Desktop/traffic-congestion/backend/flask_app/serviceAccountCredentials.json"    
+    "serviceAccount": "flask_app/serviceAccountCredentials.json"    
   }
 
 firebase = pyrebase.initialize_app(config)
