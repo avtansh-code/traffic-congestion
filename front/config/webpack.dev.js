@@ -21,7 +21,7 @@ const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
  * Webpack Constants
  */
 const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
-const HOST = process.env.HOST || '10.10.49.218';
+const HOST = process.env.HOST || '0.0.0.0';
 const PORT = process.env.PORT || 3000;
 const HMR = helpers.hasProcessFlag('hot');
 const METADATA = webpackMerge(commonConfig({
@@ -246,11 +246,11 @@ module.exports = function(options) {
       },
       proxy: {
         '/api': {
-          target: 'http://52.27.67.27:8080',
+          target: 'http://0.0.0.0:8080',
           secure: false
         },
         '/oauth': {
-          target: 'http://52.27.67.27:8080',
+          target: 'http://0.0.0.0:8080',
           secure: false
         }
       }
