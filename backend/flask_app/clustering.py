@@ -10,7 +10,7 @@ import numpy as np
  
 def predictCluster(df, val):
     df['ExtraColumn'] = 1
-    kmeans_model = KMeans(n_clusters=3, random_state=1)
+    kmeans_model = KMeans(n_clusters=3, random_state=0)
     good_columns = df[['ExtraColumn','Congestion']]
     kmeans_model.fit(good_columns)
     labels = kmeans_model.labels_
