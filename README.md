@@ -52,6 +52,9 @@ number of conclusions. The conclusions that can be drawn using this data are:
     # install global dependencies
     npm install webpack-dev-server rimraf webpack typescript -g
 
+    # install webdriver-manager
+    npm install webdriver-manager
+
     # install project related dependencies
     npm install
 
