@@ -32,8 +32,6 @@ while True:
 		print "Data inserted for "+place[x]+" on "+currdate+" at "+currtime
 		dfdata = dfdata.append(data)
 		dfdata = dfdata.reset_index(drop=True)
-	print dfdata
-
 	print len(dfdata)
 
 	dfdata.to_csv('output.csv')
