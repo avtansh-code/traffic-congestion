@@ -146,7 +146,7 @@ def login():
         r = requests.get(my_url, allow_redirects=True)
         open('output.csv', 'wb').write(r.content)
         data = pd.read_csv("output.csv")
-        data = data[['Location', 'CurrSpeed', 'NormSpeed', 'Date', 'Hour', 'Congestion']]   
+        data = data[['Location', 'CurrSpeed', 'NormSpeed', 'Date', 'Hour', 'Congestion','Weekday']]   
         trafficData = data
         logger.info("Data retrieval successful")
         return jsonify(ret), Status.HTTP_OK_BASIC
@@ -172,7 +172,7 @@ def post_location_data():
             data = tb.dataBasedOnType(totalData, dataType)
             location_threshold = threshold.calc_threshold(data)
             data['Threshold'] = location_threshold
-            data = data[['Hour','NormSpeed','CurrSpeed','Congestion','Threshold']].groupby(data['Hour'])
+            data = data[['Hour','NormSpeed','CurrSpeed','Congestion','Threshold','Weekday']].groupby(data['Hour'])
             data = data.mean()
             json_string = data.to_json(orient='index')
         else:
