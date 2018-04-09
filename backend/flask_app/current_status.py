@@ -31,14 +31,15 @@ def getData(data, location):
     maxrow =  data.loc[data['Congestion'].idxmax()]
     maxcong = maxrow['Congestion']
     print maxcong
-    point1 = th-(maxcong*0.1)
-    point2 = th+(maxcong*0.1)
-    if congestion <= point1:
+    cluster = cl.predictCluster(data,congestion)
+    print cluster
+    if cluster == 0:
         congType = 'Low'
-    elif congestion >= point2:
+    elif cluster == 2:
         congType = 'High'
     else:
         congType = 'Medium'
+    print congType
     jstr = {"currSpeed": currSpeed, "normSpeed": normSpeed, "congestion": congestion, "congType": congType}
     json_data = json.dumps(jstr)
     return json_data

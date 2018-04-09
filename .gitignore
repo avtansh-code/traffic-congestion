@@ -1,7 +1,6 @@
 typings/
 node_modules/
-*.js
-*.js.map
+backend/traffic
 
 .idea/
 # @AngularClass
@@ -48,16 +47,6 @@ npm-debug.log
 /src/typings/tsd/
 /typings/
 /tsd_typings/
-
-# Dist #
-/dist
-/public/__build__/
-/src/*/__build__/
-/__build__/**
-/public/dist/
-/src/*/dist/
-/dist/**
-.webpack.json
 
 # Doc #
 /doc/

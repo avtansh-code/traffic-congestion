@@ -8,5 +8,5 @@ def getData():
     r = requests.get(my_url, allow_redirects=True)
     open('output.csv', 'wb').write(r.content)
     data = pd.read_csv("output.csv")
-    data = data[['Location', 'CurrSpeed', 'NormSpeed', 'Date', 'Hour', 'Congestion']]
+    data = data[['Location', 'CurrSpeed', 'NormSpeed', 'Date', 'Hour', 'Congestion', 'Weekday']]
     return data

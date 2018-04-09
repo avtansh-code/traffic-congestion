@@ -30,6 +30,16 @@ export class AuthenticationService {
       .catch(this.handleError);
   }
 
+
+    /**
+   * Sends a signup request
+   *
+   */
+  public signup(body: object) {
+    return this.http.post('/api/signup', body, jsonHeader())
+      .catch(this.handleError);
+  }
+
   /**
    * Logout method to send a logout request to the server and clear localStorage
    */

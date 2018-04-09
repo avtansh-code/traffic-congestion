@@ -71,7 +71,10 @@ export class LoginFormComponent implements OnInit {
     let errMsg: string;
     this.logging = false;
     if(error === '401 - UNAUTHORIZED'){
-      errMsg = 'Incorrect Username or Password';
+      errMsg = 'Incorrect Username or Password or User not Validated Yet';
+    }
+    else if(error === '403 - FORBIDDEN'){
+      errMsg = 'User has not been verified';
     }
     else if(error === '400 - BAD REQUEST'){
       errMsg = 'Bad Request';

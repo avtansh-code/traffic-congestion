@@ -41,6 +41,8 @@ import { HomeComponent } from './home';
 import { LocationComponent } from './location';
 import { AboutComponent } from './about';
 import { NoContentComponent } from './no-content';
+import { SignupFormComponent } from './signup';
+
 
 import '../styles/style.css';
 // import '../styles/headings.css';
@@ -71,7 +73,8 @@ type StoreType = {
     SessionExpiredComponent,
     SidebarComponent,
     ErrorMessageComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    SignupFormComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
