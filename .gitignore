@@ -1,5 +1,6 @@
 typings/
 node_modules/
+backend/traffic
 
 .idea/
 # @AngularClass
