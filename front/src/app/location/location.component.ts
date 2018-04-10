@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Http, Response } from '@angular/http';
 import { AuthenticationService } from '../authentication';
 import { Router } from '@angular/router';
@@ -17,6 +18,8 @@ export class LocationComponent implements OnInit, OnDestroy {
   @Input('type') type: string;
 
   current: boolean = false;
+  future: boolean = false;
+  past: boolean = true;
   selectedValue: string;
   graphType: string;
   msg: string;
@@ -31,8 +34,10 @@ export class LocationComponent implements OnInit, OnDestroy {
   current_speed: number;
   congestion_value: number;
   congType: string;
+  date: string;
+  hour: string;
 
-  constructor(private http: Http, private router: Router, private webservice: WebService) {
+  constructor(private http: Http, private router: Router, private webservice: WebService, public dialog: MatDialog) {
   }
 
 
@@ -49,6 +54,33 @@ export class LocationComponent implements OnInit, OnDestroy {
     {value:'Noida', latitude:28.5355, longitude:77.3910}
   ];
 
+  hours = [
+    {value: 0, hour: '00:00 - 01:00'},
+    {value: 1, hour: '01:00 - 02:00'},
+    {value: 2, hour: '02:00 - 03:00'},
+    {value: 3, hour: '03:00 - 04:00'},
+    {value: 4, hour: '04:00 - 05:00'},
+    {value: 5, hour: '05:00 - 06:00'},
+    {value: 6, hour: '06:00 - 07:00'},
+    {value: 7, hour: '07:00 - 08:00'},
+    {value: 8, hour: '08:00 - 09:00'},
+    {value: 9, hour: '09:00 - 10:00'},
+    {value: 10, hour: '10:00 - 11:00'},
+    {value: 11, hour: '11:00 - 12:00'},
+    {value: 12, hour: '12:00 - 13:00'},
+    {value: 13, hour: '13:00 - 14:00'},
+    {value: 14, hour: '14:00 - 15:00'},
+    {value: 15, hour: '15:00 - 16:00'},
+    {value: 16, hour: '16:00 - 17:00'},
+    {value: 17, hour: '17:00 - 18:00'},
+    {value: 18, hour: '18:00 - 19:00'},
+    {value: 19, hour: '19:00 - 20:00'},
+    {value: 20, hour: '20:00 - 21:00'},
+    {value: 21, hour: '21:00 - 22:00'},
+    {value: 22, hour: '22:00 - 23:00'},
+    {value: 23, hour: '23:00 - 00:00'}
+  ];
+
   public ngOnInit() {
     this.webservice.isAuthenticated();
   }
@@ -56,7 +88,10 @@ export class LocationComponent implements OnInit, OnDestroy {
   ngOnChanges(){
     this.graphType = this.type;
     if(this.type === "overview"){
-      this.graphType = "Overview"
+      this.graphType = "Overview";
+      this.past = true;
+      this.future = false;
+      this.current = false;
     }
     else if(this.type === "monthly"){
       let today = new Date();
@@ -65,6 +100,9 @@ export class LocationComponent implements OnInit, OnDestroy {
       start.setDate(today.getDate() - 30);
       let start_date  = start.toLocaleDateString();
       this.graphType = start_date + " to " + end_date;
+      this.past = true;
+      this.future = false;
+      this.current = false;
     }
     else if(this.type === "weekly"){
       let today = new Date();
@@ -73,15 +111,29 @@ export class LocationComponent implements OnInit, OnDestroy {
       start.setDate(today.getDate() - 7);
       let start_date  = start.toLocaleDateString();
       this.graphType = start_date + " to " + end_date;
+      this.past = true;
+      this.future = false;
+      this.current = false;
     }
     else if(this.type === "daily"){
       let today = new Date();
       let date = today.toLocaleDateString();
       this.graphType = date;
+      this.past = true;
+      this.future = false;
+      this.current = false;
+    }
+    else if(this.type === "current"){
+      this.graphType = "Current Traffic Status";
+      this.past = false;
+      this.future = false;
+      this.current = true;
     }
     else{
-      this.graphType = "Current Traffic Status"
-      this.current = true;
+      this.graphType = "Future Traffic Predictions";
+      this.past = false;
+      this.future = true;
+      this.current = false;
     }
     console.log(this.graphType);
     this.selectedValue = this.places[this.index].value;
@@ -158,6 +210,59 @@ export class LocationComponent implements OnInit, OnDestroy {
    }
  }
 
+ private getCong(){
+  if(this.selectedValue != ''){
+    this.msg = 'Loading Data...';
+    this.dispMessage = true;
+    this.dispError = false;
+    this.dispTable = false;
+    let body = {
+      location: this.selectedValue,
+      date: this.date,
+      hour: this.hour
+    }; 
+    this.webservice.getFutureDataFromBackend(body)
+    .subscribe(
+      (data) => {
+        this.dispMessage = false;
+        this.dispError = false;
+        this.dispTable = true; 
+        this.handleFutureData(data);
+        this.openDialog();
+      },
+      (err) => {
+        this.error = 'Server Error: Unable to fetch data';
+        this.dispMessage = false;
+        this.dispError = true;
+        this.dispTable = false;
+      }
+    );
+  }
+  else{
+    this.error = 'Please select a Location';
+    this.dispMessage = false;
+    this.dispError = true;
+    this.dispTable = false;
+  }
+}
+
+private handleFutureData(data: any){
+  console.log(data);
+  this.congestion_value = data['Congestion'];
+  this.cong_threshold = data['Threshold'];
+}
+
+ openDialog(): void {
+    let dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+      width: '400px',
+      data: { congestion: this.congestion_value, threshold: this.cong_threshold }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.date = "";
+      this.hour = "";
+    });
+  }
+
  view: any[] = [600, 400];
  
  // options
@@ -170,5 +275,22 @@ export class LocationComponent implements OnInit, OnDestroy {
  showYAxisLabel = true;
  yAxisLabel1 = 'Congestion Percentage';
  yAxisLabel2 = 'Average Speed (kmph)';
+
+}
+
+
+@Component({
+  selector: 'dialog-overview-example-dialog',
+  templateUrl: 'dialogue.html',
+})
+export class DialogOverviewExampleDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 
 }

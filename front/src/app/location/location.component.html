@@ -11,7 +11,7 @@
         {{error}}
         <button class="refresh" (click)="getData()">Refresh</button>
       </span>   
-      <div class='datatable'  *ngIf="dispTable && !current">
+      <div class='datatable'  *ngIf="dispTable && past">
         <table>
           <tr>
             <td>
@@ -63,14 +63,29 @@
           </tr>
           <tr>
             <td>Traffic Condition</td>
-            <td>
+            <td class="congestionType">
               <span *ngIf='congType == "Low"' class="low">{{congType}}</span>
               <span *ngIf='congType == "Medium"' class="medium">{{congType}}</span>
               <span *ngIf='congType == "High"' class="high">{{congType}}</span>
             </td>
           </tr>
         </table>
-        <button class="refresh" (click)="getData()">Refresh</button>
+        <button class="buttonPress" (click)="getData()">Refresh</button>
+      </div>
+      <div class="futureTable" *ngIf="dispTable && future">
+        <mat-form-field class="checkDate">
+          <input matInput placeholder="Type Date - YYYY-MM-DD" [(ngModel)]="date">
+        </mat-form-field>
+        <br/>
+        <mat-form-field>
+          <mat-select placeholder="Select Hour" [(ngModel)]="hour">
+            <mat-option *ngFor="let h of hours" [value]="h.value">
+              {{ h.hour }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br/><br/>
+        <button class="buttonPress" (click)="getCong()">Submit</button>
       </div>
 </div>
 

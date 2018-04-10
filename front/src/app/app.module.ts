@@ -40,11 +40,10 @@ import { ErrorMessageComponent } from './errormessage';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 import { HomeComponent } from './home';
-import { LocationComponent } from './location';
+import { LocationComponent, DialogOverviewExampleDialog } from './location';
 import { AboutComponent } from './about';
 import { NoContentComponent } from './no-content';
 import { SignupFormComponent } from './signup';
-import { FutureComponent, DialogOverviewExampleDialog } from './future';
 
 import '../styles/style.css';
 // import '../styles/headings.css';
@@ -77,7 +76,6 @@ type StoreType = {
     ErrorMessageComponent,
     NotFoundComponent,
     SignupFormComponent,
-    FutureComponent,
     DialogOverviewExampleDialog
   ],
   imports: [ // import Angular's modules

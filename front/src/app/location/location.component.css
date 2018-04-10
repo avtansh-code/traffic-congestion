@@ -39,7 +39,7 @@
   }
 
   .medium{
-    color: yellow;
+    color: #ffcc00;
   }
 
   .high{
@@ -51,11 +51,15 @@
     width: 100%;
   }
 
+  .congestionType{
+    font-weight: bold;
+  }
+
   .currentTable table{
     margin: 0px auto;
   }
 
-  .refresh{    
+  .buttonPress{    
     background-color: #4932B3;
     color: #fff;
     padding: 1em 2em;

@@ -11,6 +11,10 @@ export class WebService {
     return this.authService.postResource(data, '/api/getLocationOverview');
   }
 
+  public getFutureDataFromBackend(data: object) {
+    return this.authService.postResource(data, '/api/getLocationFuture');
+  }
+
   public isAuthenticated() {
     if (!this.authService.isAuthenticated()) {
       this.authService.clearUserDataAndRedirect();
