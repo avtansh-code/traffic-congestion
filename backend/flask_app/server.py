@@ -21,6 +21,7 @@ from .factory import create_app, create_user
 import threshold
 import typeBased as tb
 import current_status as cs
+import prediction as pr
 import pyrebase
 import hashlib
 
@@ -178,6 +179,42 @@ def post_location_data():
         else:
             json_string = cs.getData(totalData, location)
             
+        return Response(json_string,
+                    status=Status.HTTP_OK_BASIC,
+                    mimetype='application/json')
+    except:
+        logger.info('Failed')
+        return jsonify({"msg": "Row Not Fetched"}), Status.HTTP_BAD_REQUEST
+
+
+@app.route('/api/getLocationFuture', methods=['POST'])
+@jwt_required
+def post_location_future():
+    logger.info('Getting data')
+    params = request.get_json()
+    location = params.get('location', None)
+    checkDate = params.get('date',None)
+    checkHour = params.get('hour',None)
+    global trafficData
+    logger.info(location)
+    logger.info(checkDate)
+    logger.info(checkHour)
+
+    try:
+        thatdate = datetime.strptime(checkDate,"%Y-%m-%d")
+        checkDay = thatdate.weekday()
+        logger.info(checkDay)
+        totalData = trafficData[trafficData['Location'] == location]
+        location_threshold = threshold.calc_threshold(totalData)
+        location_threshold = round(location_threshold, 2)
+        predicted = pr.getCongestion(totalData, checkDay, checkHour)
+        predicted = round(predicted, 2)        
+        jstr = {
+            'Threshold': location_threshold,
+            'Congestion': predicted
+        }
+        json_string = json.dumps(jstr)
+        logger.info(json_string)
         return Response(json_string,
                     status=Status.HTTP_OK_BASIC,
                     mimetype='application/json')
