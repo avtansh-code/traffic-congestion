@@ -1,0 +1,35 @@
+<div class="homeBody">
+  <h4>
+      {{selectedValue}} - Future Prediction
+  </h4>
+  <span class='message' *ngIf="dispMessage">
+    <spinner [size]="25" [tickness]="4"></spinner>
+    {{msg}}
+  </span>     
+  <span class='error'  *ngIf="dispError">
+    {{error}}
+    <button class="refresh" (click)="getData()">Refresh</button>
+  </span>  
+  <div class="futureTable" *ngIf="dispTable">
+    <div *ngIf="showCong">
+      <h3>Predicted Congestion: {{ congestion_value }}%</h3>
+    </div>
+    <div *ngIf="!showCong">
+      <h3>Enter Date and Time to Predict</h3>
+    </div>
+    <mat-form-field class="checkDate">
+      <input matInput placeholder="Type Date - YYYY-MM-DD" [(ngModel)]="date">
+    </mat-form-field>
+    <br/>
+    <mat-form-field>
+      <mat-select placeholder="Select Hour" [(ngModel)]="hour">
+        <mat-option *ngFor="let h of hours" [value]="h.value">
+          {{ h.hour }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br/><br/>
+    <button class="refresh" (click)="getCong()">Submit</button>
+  </div>
+</div>
+

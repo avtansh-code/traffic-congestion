@@ -5,8 +5,11 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { SpinnerModule } from 'angular2-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialogModule } from '@angular/material/dialog';
 import {
   NgModule,
   ApplicationRef
@@ -20,7 +23,6 @@ import {
   RouterModule,
   PreloadAllModules
 } from '@angular/router';
-import { MatSelectModule } from '@angular/material';
 
 
 /*
@@ -42,7 +44,7 @@ import { LocationComponent } from './location';
 import { AboutComponent } from './about';
 import { NoContentComponent } from './no-content';
 import { SignupFormComponent } from './signup';
-
+import { FutureComponent, DialogOverviewExampleDialog } from './future';
 
 import '../styles/style.css';
 // import '../styles/headings.css';
@@ -74,7 +76,9 @@ type StoreType = {
     SidebarComponent,
     ErrorMessageComponent,
     NotFoundComponent,
-    SignupFormComponent
+    SignupFormComponent,
+    FutureComponent,
+    DialogOverviewExampleDialog
   ],
   imports: [ // import Angular's modules
     BrowserModule,
@@ -85,7 +89,9 @@ type StoreType = {
     SpinnerModule,
     HttpModule,
     Ng2SmartTableModule,
+    MatInputModule,
     MatSidenavModule,
+    MatDialogModule,
     MatTabsModule,
     NgxChartsModule,
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
@@ -93,7 +99,8 @@ type StoreType = {
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
     APP_PROVIDERS
-  ]
+  ],
+  entryComponents: [DialogOverviewExampleDialog]
 })
 export class AppModule {
 
