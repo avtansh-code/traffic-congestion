@@ -1,2 +1,11 @@
-<h3>Predicted Congestion: {{ data.congestion }}%</h3>
+<h4>Date: {{data.date}}</h4>
+<h4>Hour: {{data.hour}}</h4>
 <h4>Congestion Threshold: {{ data.threshold }}%</h4>
+<span *ngIf="cong_status" class="congested">
+    <h3>Predicted Congestion: {{ data.congestion }}</h3>
+    <p>The congestion percentage will be above the threshold value.</p>
+</span>
+<span *ngIf="!cong_status" class="not-congested">
+    <h3>Predicted Congestion: {{ data.congestion }}</h3>
+    <p>The congestion percentage will be below the threshold value.</p>
+</span>
