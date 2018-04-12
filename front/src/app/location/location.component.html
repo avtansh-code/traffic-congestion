@@ -12,6 +12,7 @@
         <button class="refresh" (click)="getData()">Refresh</button>
       </span>   
       <div class='datatable'  *ngIf="dispTable && past">
+        <a class="dwld_btn" (click)="download_csv()">Download Report as CSV File</a>
         <table>
           <tr>
             <td>
