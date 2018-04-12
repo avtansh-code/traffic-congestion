@@ -36,6 +36,7 @@ export class LocationComponent implements OnInit, OnDestroy {
   congType: string;
   date: string;
   hour: string;
+  trafficData;
 
   constructor(private http: Http, private router: Router, private webservice: WebService, public dialog: MatDialog) {
   }
@@ -165,6 +166,7 @@ export class LocationComponent implements OnInit, OnDestroy {
          this.dispMessage = false;
          this.dispError = false;
          this.dispTable = true; 
+         this.trafficData = data;
          this.handleData(data);
        },
        (err) => {
@@ -210,6 +212,32 @@ export class LocationComponent implements OnInit, OnDestroy {
    }
  }
 
+ download_csv(): void{
+   console.log("Download");
+   let file: string = 'Hour, Average Speed, Congestion,\n';
+   for(let key of Object.keys(this.trafficData)){
+     let hours = this.trafficData[key]['Hour'] + ' to ' + (this.trafficData[key]['Hour']+1);
+     file = `${file}${hours},${this.trafficData[key]['CurrSpeed']},${this.trafficData[key]['Congestion']}\n`
+   }
+   console.log(file);
+   this.downloadAction(file);
+ }
+
+ downloadAction(logs:string):void{
+  let uri = 'data:text/html;charset=utf-8,' + encodeURIComponent(logs);
+  let downloadLink = document.createElement("a");
+  downloadLink.setAttribute("href", uri);
+  let today = new Date();
+  let date = today.toLocaleDateString();
+  console.log(date);
+  let name:string = this.places[this.index].value+'_'+this.type+'_'+date+'.csv';
+  downloadLink.setAttribute("download", name);
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+}
+
+
  private getCong(){
   if(this.selectedValue != ''){
     this.msg = 'Loading Data...';
@@ -252,18 +280,23 @@ private handleFutureData(data: any){
   this.cong_threshold = data['Threshold'];
 }
 
- openDialog(): void {
-    let dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-      width: '400px',
-      data: { congestion: this.congestion_value, threshold: this.cong_threshold }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      this.date = "";
-      this.hour = "";
-    });
-  }
+openDialog(): void {
+  let dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+    width: '400px',
+    data: { 
+      congestion: this.congestion_value, 
+      threshold: this.cong_threshold,
+      date: this.date,
+      hour: this.hours[this.hour].hour 
+    }
+  });
+  dialogRef.afterClosed().subscribe(result => {
+    this.date = "";
+    this.hour = "";
+  });
+}
 
- view: any[] = [600, 400];
+ view: any[] = [600, 350];
  
  // options
  showXAxis = true;
@@ -282,12 +315,22 @@ private handleFutureData(data: any){
 @Component({
   selector: 'dialog-overview-example-dialog',
   templateUrl: 'dialogue.html',
+  styleUrls: ['./location.component.css']
 })
 export class DialogOverviewExampleDialog {
-
+  cong_status: boolean;
   constructor(
     public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  ngOnInit(){
+    if(this.data.congestion === "Yes"){
+      this.cong_status = true;
+    }
+    else{
+      this.cong_status = false;
+    }
+  }
 
   onNoClick(): void {
     this.dialogRef.close();

@@ -207,14 +207,14 @@ def post_location_future():
         totalData = trafficData[trafficData['Location'] == location]
         location_threshold = threshold.calc_threshold(totalData)
         location_threshold = round(location_threshold, 2)
-        predicted = pr.getCongestion(totalData, checkDay, checkHour)
-        predicted = round(predicted, 2)        
+        predicted = pr.getCongestion(totalData, checkDay, checkHour, location_threshold)
+        print predicted
         jstr = {
             'Threshold': location_threshold,
             'Congestion': predicted
         }
         json_string = json.dumps(jstr)
-        logger.info(json_string)
+        print json_string
         return Response(json_string,
                     status=Status.HTTP_OK_BASIC,
                     mimetype='application/json')

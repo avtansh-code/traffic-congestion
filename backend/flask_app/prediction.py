@@ -1,9 +1,10 @@
 from __future__ import division
 import getData as gd
 import pandas as pd
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LogisticRegression
 
-def getCongestion(loc_data, day, hour):
+def getCongestion(loc_data, day, hour, threshold):
+
     loc_data = loc_data.reset_index(drop=True)
 
     for index,row in loc_data.iterrows():
@@ -22,13 +23,19 @@ def getCongestion(loc_data, day, hour):
         else:
             loc_data.loc[index,'WeekNo'] = 6
 
-    x = loc_data[['Hour','WeekNo']]
-    y = loc_data['Congestion']
+        if row['Congestion'] >= threshold:
+            loc_data.loc[index,'Cong_Status'] = 'Yes'
+        else:
+            loc_data.loc[index,'Cong_Status'] = 'No'
 
-    genius_regression_model = LinearRegression()
-    genius_regression_model.fit(x,y)
+    x_train = loc_data[['Hour','WeekNo']]
+    y_train = loc_data['Cong_Status']
+
+
+    logisticRegr = LogisticRegression()
+    logisticRegr.fit(x_train, y_train)
 
     x_test = [[hour,day]]
-    val = genius_regression_model.predict(x_test)
+    val = logisticRegr.predict(x_test)   
 
     return val[0]
