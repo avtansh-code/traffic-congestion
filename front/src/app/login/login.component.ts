@@ -43,7 +43,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   logging: boolean = false;
-  loginMsg: string = "Validating...";;
+  loginMsg: string = "Verifying...";;
 
   public loginUser() {
     this.logging = true;
