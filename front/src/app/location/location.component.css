@@ -34,15 +34,15 @@
     border-color: #ffcc00 rgba(79, 106, 167, 0.1) rgba(79, 106, 167, 0.1) !important;
   }
 
-  .low{
+  .low, .not-congested{
     color: green;
   }
 
   .medium{
-    color: yellow;
+    color: #ffcc00;
   }
 
-  .high{
+  .high, .congested{
     color: red;
   }
 
@@ -51,12 +51,22 @@
     width: 100%;
   }
 
+  .congestionType{
+    font-weight: bold;
+  }
+
   .currentTable table{
     margin: 0px auto;
   }
 
-  .refresh{    
+  .buttonPress{    
     background-color: #4932B3;
     color: #fff;
     padding: 1em 2em;
+  }
+
+  .dwld_btn{
+    float: right;
+    padding-right: 2em;
+    font-size: 1em;
   }
