@@ -4,7 +4,7 @@ numpy
 pandas
 requests
 boto3==1.0.0
-Flask==0.11.1
+Flask==1.0
 gevent==1.2.2
 Flask-Cors==3.0.9
 Flask-Security==3.0.0
